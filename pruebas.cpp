@@ -144,6 +144,15 @@ int main(void){
 
 	cout << "-------------------------- Pruebas Array con Complex --------------------------" << endl << endl ;
 
+	Array<Complex> CArr(10);
+
+	cout << CArr << endl;
+
+	for(size_t i = 0; i < 10; i++)
+		CArr[i] += i;
+
+	cout << CArr << endl;
+
 	return 0;
 
 }	
