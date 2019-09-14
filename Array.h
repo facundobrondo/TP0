@@ -35,8 +35,10 @@ public:
 	Array<T> & operator+= (Array<T> &);
 	Array<T> & operator+= (T &);
 
+	//IO
+
 	template <class U>
-	friend ostream & operator<<(ostream &, const Array<U> &);
+	friend ostream & operator<< (ostream &, const Array<U> &);
 
 };
 
