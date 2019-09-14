@@ -35,7 +35,22 @@ public:
 	Array<T> & operator+= (Array<T> &);
 	Array<T> & operator+= (T &);
 
+	template <class U>
+	friend ostream & operator<<(ostream &, const Array<U> &);
+
 };
+
+template <class T>
+ostream & operator<<(ostream & os, Array<T> & data){
+
+	for(size_t i = 0; i < data.getSize(); i++)
+		i != data.getSize() - 1 ? os << data[i] << ',' : os << data[i] ;
+
+	os << endl;
+
+	return os;
+
+}
 
 template <class T>
 Array<T> & Array<T>::operator+= (Array<T> & data){

@@ -50,6 +50,12 @@ int main(void){
 
 	cout << "Fin prueba agregar elemento" << endl;
 
+	cout << "Inicio prueba impresion arreglo" << endl;
+
+	cout << a;
+
+	cout << "Fin prueba impresion arreglo" << endl;
+
 	return 0;
 
 }	
