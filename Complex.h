@@ -61,3 +61,5 @@ public:
 	friend ostream & operator<< (ostream &, const Complex);
 
 };
+
+#endif
