@@ -45,6 +45,9 @@ public:
 template <class T>
 ostream & operator<<(ostream & os, Array<T> & data){
 
+	if(data.isEmpty())
+		return os << "NULL pointer";
+
 	for(size_t i = 0; i < data.getSize(); i++)
 		i != data.getSize() - 1 ? os << data[i] << ',' : os << data[i] ;
 
@@ -67,7 +70,8 @@ Array<T> & Array<T>::operator+= (Array<T> & data){
 	for(size_t i = size; i < newSize; i++)
 		ref[i] = data.ptr[i - size];
 
-	delete []ptr;
+	if(ptr)
+		delete []ptr;
 
 	size = newSize;
 	ptr = ref;
@@ -83,12 +87,13 @@ Array<T> & Array<T>::operator+= (T & element){
 
 	T *ref = new T[size];
 
-	for(size_t i = 0; i < size; i++)
+	for(size_t i = 0; i < size - 1; i++)
 		ref[i] = ptr[i];
 
 	ref[size - 1] = element;
 
-	delete []ptr;
+	if(ptr)
+		delete []ptr;
 
 	ptr = ref;
 
@@ -118,12 +123,8 @@ Array<T>::Array(){
 template <class T>
 Array<T>::Array(const size_t newSize){
 
-	if(!ptr){
-
-		size = newSize;
-		ptr = new T[size];
-		
-	}
+	size = newSize;
+	ptr = new T[size];
 
 }
 

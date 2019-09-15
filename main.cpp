@@ -17,6 +17,8 @@ int main(int argc, char *argv[]){
 	if(!argumentProcessing(argc, argv, files))
 		return 1;
 
+	cout << files;
+
 }
 
 bool argumentProcessing(size_t argc, char *argv[], Array<string> &files){
@@ -27,7 +29,7 @@ bool argumentProcessing(size_t argc, char *argv[], Array<string> &files){
 	Array<string> arguments(argc);
 	char2stringArray(argc, argv, arguments);
 
-	for(size_t i = 0; i < arguments.getSize(); i++){
+	for(size_t i = 1; i < argc; i++){
 
 		if(arguments[i] == "-h" || arguments[i] == "--help"){
 			cout << "Display help." << endl;
@@ -35,18 +37,18 @@ bool argumentProcessing(size_t argc, char *argv[], Array<string> &files){
 		}
 
 		else if(arguments[i] == "-f" || arguments[i] == "--files"){
-
-			for(size_t j = 0; i < files.getSize(); j++)
-				files +=  arguments[j + i + 1];
 			
+			for(size_t j = i + 1; j < argc ; j++){
+				files +=  arguments[j];
+			}
+
 			return true;
 
 		}
 
-
 	}
-
-	return 0;
+	
+	return false;
 
 }
 
@@ -55,7 +57,6 @@ void char2stringArray(size_t size, char *cArray[], Array<string> &sArray){
 	for(size_t i = 0; i < size; i++){
 
 		size_t length = getLength(cArray[i]);
-
 		convert2string(length, cArray[i], sArray[i]);
 
 	}
