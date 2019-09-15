@@ -1,8 +1,5 @@
-//Desarrollo del tipo de dato Complejo
-
 #ifndef COMPLEX_H_INCLUDED
 #define COMPLEX_H_INCLUDED
-
 
 #include <iostream>
 #include <cmath>
