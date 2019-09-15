@@ -169,7 +169,6 @@ Complex operator/ (const Complex & a, const double div){
 Complex operator/ (const Complex & a, const Complex & b){
 
 	Complex c = a * b.conjugate();
-
 	c /= b.absoluteValue2();
 
 	return c;

@@ -118,9 +118,12 @@ Array<T>::Array(){
 template <class T>
 Array<T>::Array(const size_t newSize){
 
-	size = newSize;
+	if(!ptr){
 
-	ptr = new T[size];
+		size = newSize;
+		ptr = new T[size];
+		
+	}
 
 }
 
