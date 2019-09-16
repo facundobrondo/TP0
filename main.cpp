@@ -1,6 +1,5 @@
 #include <iostream>
 
-#include "Array.h"
 #include "Complex.h"
 #include "CommandLineArguments.h"
 
