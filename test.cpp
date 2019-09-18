@@ -1,10 +1,27 @@
 #include <iostream>
 #include "Array.h"
 #include "Complex.h"
+#include "Status.h"
 
 using namespace std;
 
 int main(void){
+
+	Status program;
+
+	cout << (program.dft() ? "DFT" : "iDFT") << endl;
+	cout << "I:" << program.getInFile() << endl;
+	cout << "O:" << program.getOutFile() << endl;
+	cout << (program.stdIn() ? "stdin" : "inFile") << endl;
+	cout << (program.stdOut() ? "stdout" : "outFile") << endl;
+
+	string iF("pruebaI.txt");
+	string oF("pruebaO.txt");
+
+	program.newInFile(iF);
+	program.newOutFile(oF);
+	cout << "I:" << program.getInFile() << endl;
+	cout << "O:" << program.getOutFile() << endl;
 
 	size_t i;
 	Array <int> a(10);

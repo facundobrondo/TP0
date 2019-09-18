@@ -2,22 +2,23 @@
 
 #include "Array.h"
 #include "Complex.h"
+#include "Status.h"
 #include "CommandLineArguments.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]){
+	
+	Status program;	
 
-	Array<string> files;	
-
-	if(!argumentProcessing(argc, argv, files))
+	if(!argumentProcessing(argc, argv, program))
 		return 1;
 
-	for(size_t i = 0; i < files.getSize(); i++){
+	cout << (program.dft() ? "DFT" : "iDFT") << endl;
+	cout << "I:" << program.getInFile() << endl;
+	cout << "O:" << program.getOutFile() << endl;
+	cout << (program.stdIn() ? "stdin" : "inFile") << endl;
+	cout << (program.stdOut() ? "stdout" : "outFile") << endl;
 
-		
-
-		
-	}
 
 }

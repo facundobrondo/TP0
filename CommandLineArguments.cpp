@@ -1,6 +1,6 @@
 #include "CommandLineArguments.h"
 
-bool argumentProcessing(size_t argc, char *argv[], Array<string> &files){
+bool argumentProcessing(size_t argc, char *argv[], Status &program){
 
 	if(argc < 2)
 		return false;
@@ -10,18 +10,37 @@ bool argumentProcessing(size_t argc, char *argv[], Array<string> &files){
 
 	for(size_t i = 1; i < argc; i++){
 
-		if(arguments[i] == "-h" || arguments[i] == "--help"){
-			cout << "Display help." << endl;
+		if(arguments[i] == "-h" || arguments[i] == "--help")
 			return false;
-		}
 
-		else if(arguments[i] == "-f" || arguments[i] == "--files"){
-			
-			for(size_t j = i + 1; j < argc ; j++){
-				files +=  arguments[j];
+		else if(arguments[i] == "-m" || "--method"){
+
+			if(i + 1 < argc){
+
+				if(arguments[i + 1] == "idft")
+					program.dft(false);
+
+				else if(arguments[i + 1] == "dft")
+					continue;
+
+				else
+					return false;
+
 			}
 
-			return true;
+		}
+
+		else if(arguments[i] == "-i" || arguments[i] == "--input"){
+
+			if(i + 1 < argc)
+				program.newInFile(arguments[i + 1]);	
+
+		}
+
+		else if(arguments[i] == "-o" || arguments[i] == "--output"){
+
+			if(i + 1 < argc)
+				program.newOutFile(arguments[i + 1]);
 
 		}
 

@@ -3,12 +3,13 @@
 
 #include <iostream>
 #include "Array.h"
+#include "Status.h"
 
 #define HELP_FILE "help.txt"
 
 void char2stringArray(size_t size, char *cArray[], Array<string> &sArray);
 size_t getLength(char *string);
 void convert2string(size_t length, char cArray[], string &str);
-bool argumentProcessing(size_t argc, char *argv[], Array<string> &files);
+bool argumentProcessing(size_t argc, char *argv[], Status &);
 
 #endif

@@ -40,7 +40,6 @@ public:
 
 };
 
-
 template <class T>
 ostream & operator<<(ostream & os, Array<T> & data){
 
