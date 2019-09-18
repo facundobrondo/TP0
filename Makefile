@@ -17,7 +17,8 @@ Complex.o: Complex.cpp Complex.h
 CommandLineArguments.o: CommandLineArguments.cpp CommandLineArguments.h
 	$(CC) -c CommandLineArguments.cpp
 
-
+Status.o: Status.cpp Status.h
+	$(CC) -c Status.cpp
 
 test: $(OBJS_TEST) 
 	$(CC) $(CFLAGS) -o test $(OBJS_TEST) 
