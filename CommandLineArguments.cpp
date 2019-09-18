@@ -2,16 +2,20 @@
 
 bool argumentProcessing(size_t argc, char *argv[], Status &program){
 
-	if(argc < 2)
+	if(argc < 2){
+		puts("wtf");
 		return false;
+	}
 
 	Array<string> arguments(argc);
 	char2stringArray(argc, argv, arguments);
 
 	for(size_t i = 1; i < argc; i++){
 
-		if(arguments[i] == "-h" || arguments[i] == "--help")
+		if(arguments[i] == "-h" || arguments[i] == "--help"){
+			puts("help");
 			return false;
+		}
 
 		else if(arguments[i] == "-m" || "--method"){
 
@@ -23,8 +27,10 @@ bool argumentProcessing(size_t argc, char *argv[], Status &program){
 				else if(arguments[i + 1] == "dft")
 					continue;
 
-				else
+				else{
+					puts("dft");
 					return false;
+				}
 
 			}
 
@@ -46,7 +52,7 @@ bool argumentProcessing(size_t argc, char *argv[], Status &program){
 
 	}
 	
-	return false;
+	return true;
 
 }
 
