@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "Array.h"
 #include "Complex.h"
 #include "CommandLineArguments.h"
 
@@ -12,6 +13,11 @@ int main(int argc, char *argv[]){
 	if(!argumentProcessing(argc, argv, files))
 		return 1;
 
-	cout << files;
+	for(size_t i = 0; i < files.getSize(); i++){
+
+		
+
+		
+	}
 
 }

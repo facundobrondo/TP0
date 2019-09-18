@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -g -Wall 
+CFLAGS = -g -Wall -pedantic
 SRCS = test.cpp Complex.cpp CommandLineArguments.cpp
 OBJS= main.o Complex.o CommandLineArguments.o
 OBJS_TEST = test.o Complex.o
