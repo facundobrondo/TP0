@@ -37,13 +37,13 @@ public:
 	Complex & operator= (const double);
 
 	friend Complex operator+ (const Complex &, const Complex &);
-	Complex & operator+= (Complex &);
+	Complex & operator+= (const Complex &);
 	friend Complex operator- (const Complex &, const Complex &);
-	Complex & operator-= (Complex &);
+	Complex & operator-= (const Complex &);
 	friend Complex operator* (const Complex &, const Complex &);
-	Complex & operator*= (Complex &);
+	Complex & operator*= (const Complex &);
 	friend Complex operator/ (const Complex &, const Complex &);
-	Complex & operator/= (Complex &);
+	Complex & operator/= (const Complex &);
 
 	//With real numbers
 

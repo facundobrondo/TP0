@@ -119,7 +119,7 @@ Complex & Complex::operator+=(const double right){
 	return *this;
 }
 
-Complex & Complex::operator+=(Complex & right){
+Complex & Complex::operator+=(const Complex & right){
 	x += right.x;
 	y += right.y;
 	return *this;
@@ -130,7 +130,7 @@ Complex & Complex::operator-=(const double right){
 	return *this;
 }
 
-Complex & Complex::operator-=(Complex & right){
+Complex & Complex::operator-=(const Complex & right){
 	x -= right.x;
 	y -= right.y;
 	return *this;
@@ -142,7 +142,7 @@ Complex & Complex::operator*=(const double mul){
 	return *this;
 }
 
-Complex & Complex::operator*=(Complex & right){
+Complex & Complex::operator*=(const Complex & right){
 	double oldX = x;
 	x = x * right.x - y * right.y;
 	y = right.y * oldX + y * right.x;
@@ -156,8 +156,8 @@ Complex & Complex::operator/=(const double div){
 	return *this;
 }
 
-Complex & Complex::operator/=(Complex & right){
-	*this *= right.conjugateThis();
+Complex & Complex::operator/=(const Complex & right){
+	*this *= right.conjugate();
 	*this /= right.absoluteValue2();
   return *this;
 }
