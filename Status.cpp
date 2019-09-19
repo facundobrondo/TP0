@@ -5,7 +5,7 @@ Status::Status(){
 	inFile = "";
 	outFile = "";
 	discreteFourierTransform = true;
-	help = false;
+	help = false; //hay que cambiar??
 
 }
 
