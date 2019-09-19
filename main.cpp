@@ -11,8 +11,8 @@ using namespace std;
 int main(int argc, char *argv[]){
 
 	//Status object is created to keep count of the program attributes
-	
-	Status program;	
+
+	Status program;
 
 	fstream input, output;
 
