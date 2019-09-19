@@ -2,10 +2,8 @@
 
 bool argumentProcessing(size_t argc, char *argv[], Status &program){
 
-	if(argc < 2){
-		puts("wtf");
+	if(argc < 2)
 		return false;
-	}
 
 	Array<string> arguments(argc);
 	char2stringArray(argc, argv, arguments);
@@ -13,46 +11,77 @@ bool argumentProcessing(size_t argc, char *argv[], Status &program){
 	for(size_t i = 1; i < argc; i++){
 
 		if(arguments[i] == "-h" || arguments[i] == "--help"){
-			puts("help");
+			program.setHelp();
 			return false;
 		}
 
-		else if(arguments[i] == "-m" || "--method"){
+		else if(arguments[i] == "-m" || arguments[i] == "--method"){
 
 			if(i + 1 < argc){
 
-				if(arguments[i + 1] == "idft")
+				if(arguments[i + 1] == "idft"){
 					program.dft(false);
-
-				else if(arguments[i + 1] == "dft")
+					i++;
 					continue;
-
-				else{
-					puts("dft");
-					return false;
 				}
 
+				else if(arguments[i + 1] == "dft"){
+					i++;
+					continue;
+				}
+
+				else
+					return false;
+
 			}
+
+			else
+				return false;
 
 		}
 
 		else if(arguments[i] == "-i" || arguments[i] == "--input"){
 
-			if(i + 1 < argc)
-				program.newInFile(arguments[i + 1]);	
+			if(i + 1 < argc){
+				program.newInFile(arguments[i + 1]);
+				i++;	
+			}
 
 		}
 
 		else if(arguments[i] == "-o" || arguments[i] == "--output"){
 
-			if(i + 1 < argc)
+			if(i + 1 < argc){
 				program.newOutFile(arguments[i + 1]);
+				i++;
+			}
 
+		}
+
+		else{
+			cout << "No se reconoce el argumento" << endl;
+			return false;
 		}
 
 	}
 	
 	return true;
+
+}
+
+bool displayHelp(){
+
+	ifstream helpFile(HELP_FILE);
+
+	if(helpFile.is_open()){
+		cout << helpFile.rdbuf();
+		helpFile.close();
+		return true;
+	}
+
+
+
+	return false;
 
 }
 

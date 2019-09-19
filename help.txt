@@ -1,0 +1,15 @@
+						HELP IS ON ITS WAY!
+
+		Arguments 		| 	Function 	|	Options	      |	    Default
+-------------------------------------------------------------------------------------------------------
+					| Lets the user define	|                     |
+	   "-m" or "--method"		| the between dft or 	|   "dft" or "idft"   |	     "dft"
+					| inverse dft		|                     |
+-------------------------------------------------------------------------------------------------------
+	   				| Lets the user define	|		      |
+	   "-o" or "--output"		| a output file		|    "output file"    |	     stdout
+					|			|		      |
+-------------------------------------------------------------------------------------------------------
+	   				| Lets the user define 	|		      |
+	   "-i" or "--input"		| a input file		|    "input file"     |	      stdin
+					|			|		      |

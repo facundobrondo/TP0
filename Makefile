@@ -1,14 +1,19 @@
 CC = g++
 CFLAGS = -g -Wall -pedantic
 SRCS = test.cpp Complex.cpp CommandLineArguments.cpp
-OBJS= main.o Complex.o CommandLineArguments.o
-OBJS_TEST = test.o Complex.o
+OBJS= main.o Complex.o CommandLineArguments.o Status.o
+OBJS_TEST = test.o Complex.o CommandLineArguments.o Status.o
 EXEC = tp0
 
 $(EXEC): $(OBJS)
 	$(CC) $(CFLAGS) -o $(EXEC) $(OBJS)
 
-main.o: main.cpp Array.h CommandLineArguments.h Complex.h
+all: main
+
+main: main.o Complex.o CommandLineArguments.o Status.o
+	$(CC) $(CFLAGS) -o $(EXEC) $(OBJS)
+
+main.o: main.cpp Array.h CommandLineArguments.h Complex.h Status.h
 	$(CC) -c main.cpp
 
 Complex.o: Complex.cpp Complex.h 
@@ -20,10 +25,10 @@ CommandLineArguments.o: CommandLineArguments.cpp CommandLineArguments.h
 Status.o: Status.cpp Status.h
 	$(CC) -c Status.cpp
 
-test: $(OBJS_TEST) 
+test: test.o Complex.o CommandLineArguments.o Status.o 
 	$(CC) $(CFLAGS) -o test $(OBJS_TEST) 
 
-test.o: test.cpp Array.h Complex.h
+test.o: test.cpp Array.h Complex.h Status.h CommandLineArguments.h
 	$(CC) -c test.cpp
 
 

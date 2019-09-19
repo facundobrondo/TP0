@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "Array.h"
 #include "Complex.h"
 #include "Status.h"
@@ -7,7 +8,21 @@ using namespace std;
 
 int main(void){
 
-	Status program;
+	Array <Complex> a;
+
+	ifstream input;
+	input.open("arrayTest.txt", ios::in);
+
+	cout << a << endl;
+
+	input >> a;
+
+	cout << a << endl;
+
+	input.close();
+
+
+	/*Status program;
 
 	cout << (program.dft() ? "DFT" : "iDFT") << endl;
 	cout << "I:" << program.getInFile() << endl;
@@ -169,6 +184,7 @@ int main(void){
 		CArr[i] += i;
 
 	cout << CArr << endl;
+	*/
 
 	return 0;
 

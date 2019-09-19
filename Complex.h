@@ -33,6 +33,9 @@ public:
 
 	//Operators
 
+	Complex & operator= (const Complex &);
+	Complex & operator= (const double);
+
 	friend Complex operator+ (const Complex &, const Complex &);
 	Complex & operator+= (Complex &);
 	friend Complex operator- (const Complex &, const Complex &);
@@ -55,7 +58,8 @@ public:
 
 	//IO
 
-	friend ostream & operator<< (ostream &, const Complex);
+	friend ostream & operator<< (ostream &, const Complex &);
+	friend istream & operator>> (istream &,  Complex &);
 
 };
 

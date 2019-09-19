@@ -30,6 +30,8 @@ public:
 	void newInFile(string &);
 	void newOutFile(string &);
 	void dft(bool);
+	void setHelp();
+	bool needHelp();
 
 };
 

@@ -2,6 +2,7 @@
 #define CLA_H_INCLUDED
 
 #include <iostream>
+#include <fstream>
 #include "Array.h"
 #include "Status.h"
 
@@ -11,5 +12,6 @@ void char2stringArray(size_t size, char *cArray[], Array<string> &sArray);
 size_t getLength(char *string);
 void convert2string(size_t length, char cArray[], string &str);
 bool argumentProcessing(size_t argc, char *argv[], Status &);
+bool displayHelp();
 
 #endif

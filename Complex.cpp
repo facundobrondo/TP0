@@ -96,35 +96,53 @@ Complex operator/(const Complex & a, const Complex & b){
 	return c;
 }
 
-Complex& Complex::operator+=(const double right){
+Complex & Complex::operator= (const Complex & right){
+
+	x = right.x;
+	y = right.y;
+
+	return *this;
+
+}
+
+Complex & Complex::operator= (const double right){
+
+	x = right;
+	y = 0;
+
+	return *this;
+
+}
+
+Complex & Complex::operator+=(const double right){
 	x += right;
 	return *this;
 }
 
-Complex& Complex::operator+=(Complex & right){
+Complex & Complex::operator+=(Complex & right){
 	x += right.x;
 	y += right.y;
 	return *this;
 }
 
-Complex& Complex::operator-=(const double right){
+Complex & Complex::operator-=(const double right){
 	x -= right;
 	return *this;
 }
 
-Complex& Complex::operator-=(Complex & right){
+Complex & Complex::operator-=(Complex & right){
 	x -= right.x;
 	y -= right.y;
 	return *this;
 }
 
-Complex& Complex::operator*=(const double mul){
+Complex & Complex::operator*=(const double mul){
 	x *= mul;
 	y *= mul;
 	return *this;
 }
 
-Complex& Complex::operator*=(Complex & right){
+Complex & Complex::operator*=(Complex & right){
 	double oldX = x;
 	x = x * right.x - y * right.y;
 	y = right.y * oldX + y * right.x;
@@ -132,18 +150,57 @@ Complex& Complex::operator*=(Complex & right){
 }
 
 
-Complex& Complex::operator/=(const double div){
+Complex & Complex::operator/=(const double div){
 	x /= div;
 	y /= div;
 	return *this;
 }
 
-Complex& Complex::operator/=(Complex & right){
+Complex & Complex::operator/=(Complex & right){
 	*this *= right.conjugateThis();
 	*this /= right.absoluteValue2();
   return *this;
 }
 
-ostream& operator<< (ostream & os, const Complex c){
+ostream & operator<< (ostream & os, const Complex & c){
 	return os << '(' << c.x << ',' << c.y << ')';
+}
+
+istream & operator>> (istream & is, Complex & c){
+
+	char ch = 0;
+	double re = 0, im = 0;
+	bool goodRead = false;
+
+	if(is >> ch && ch == '('){
+
+		if(is >> re)
+			if(is >> ch && ch == ',')
+				if(is >> im)
+					if(is >> ch && ch == ')')
+						goodRead = true;
+
+	}
+
+	else if(is.good()){
+
+		is.putback(ch);
+
+		if(is >> re)
+			goodRead = true;
+
+	}
+
+	if(goodRead){
+
+		c.x = re;
+		c.y = im;
+
+	}
+
+	else
+		is.clear(ios::badbit);
+
+	return is;
+
 }

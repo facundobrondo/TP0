@@ -5,6 +5,7 @@ Status::Status(){
 	inFile = "";
 	outFile = "";
 	discreteFourierTransform = true;
+	help = false;
 
 }
 
@@ -40,4 +41,12 @@ void Status::newOutFile(string &oF){
 
 void Status::dft(bool state){
 	discreteFourierTransform = state;
+}
+
+void Status::setHelp(){
+	help = true;
+}
+
+bool Status::needHelp(){
+	return help;
 }
