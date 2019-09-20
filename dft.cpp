@@ -26,11 +26,11 @@ int main(void){
 
 	Array<Complex> &out = dft(in);
 
-	cout << setprecision(3) << "Vector de salida: " << out << endl;
+	cout << fixed << setprecision(3) << "Vector de salida: " << out << endl;
 
 	Array<Complex> &iout = idft(out);
 
-	cout << setprecision(3) << "Vector de salida idft: " << iout << endl;
+	cout << fixed << setprecision(3) << "Vector de salida idft: " << iout << endl;
 
 	inFile.close();
 
