@@ -5,11 +5,12 @@
 #include "Complex.h"
 #include "Status.h"
 #include "CommandLineArguments.h"
+#include "dft.h"
+#include "stream.h"
 
 using namespace std;
 
-ostream &setOutStream(Status &, fstream &);
-istream &setInStream(Status &, fstream &);
+void fourierProcess(istream &, ostream &, bool);
 
 int main(int argc, char *argv[]){
 
@@ -31,6 +32,8 @@ int main(int argc, char *argv[]){
 	ostream &os = setOutStream(program, output);
 	istream &is = setInStream(program, input);
 
+	fourierProcess(is, os, program.dft());
+
 	if(input.is_open())
 		input.close();
 
@@ -39,37 +42,47 @@ int main(int argc, char *argv[]){
 
 	return 0;
 
+}
+
+void fourierProcess(istream &is, ostream &os, bool performDft){
+
+	/*while(true){
+
+		Array<Complex> input, output;
+
+		is >> input;
+
+		if(is.eof()){
+			puts("sale por eof");
+			break;
+		}
+
+		os << "input: " << input << endl;
+
+		if(performDft)
+			dft(input, output);
+
+		else
+			idft(input, output);
+
+		os << "output: " << output << endl;
+
+	}*/
+
+	Array<Complex> input, output;
+
+	is >> input;
+
+	os << "input: " << fixed << setprecision(2) << input << endl;
+
+	if(performDft)
+		dft(input, output);
+	else
+		idft(input, output);
+
+	os << "output: " << fixed << setprecision(2) << output << endl;
 
 }
 
-ostream &setOutStream(Status &program, fstream &output){
 
-	ostream *osPtr = NULL;
 
-	if(program.stdOut())
-		osPtr = &cout;
-
-	else{
-		output.open(program.getOutFile(), ios::out);
-		osPtr = &output;
-	}
-
-	return *osPtr;
-
-}
-
-istream &setInStream(Status &program, fstream &input){
-
-	istream *isPtr = NULL;
-
-	if(program.stdIn())
-		isPtr = &cin;
-
-	else{
-		input.open(program.getInFile(), ios::in);
-		isPtr = &input;
-	}
-
-	return *isPtr;
-
-}
