@@ -61,11 +61,15 @@ void fourierProcess(istream &is, ostream &os, bool performDft){
 
 		os << "Input Array: " << fixed << setprecision(2) << input << endl;
 
-		if(performDft ? os << "performing DFT" << endl : os << "performing iDFT" << endl)
+		if(performDft){
+			os << "performing DFT" << endl;
 			dft(input, output);
+		}
 
-		else
+		else{
+			os << "performing iDFT" << endl;
 			idft(input, output);
+		}
 
 		os << "Output Array: " << fixed << setprecision(2) << output << endl;
 
