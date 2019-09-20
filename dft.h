@@ -4,6 +4,7 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <sstream>
 #include <cmath>
 #include "Array.h"
 #include "Complex.h"
@@ -16,5 +17,6 @@ using namespace std;
 void dft(Array<Complex> &, Array<Complex> &);
 void idft(Array<Complex> &, Array<Complex> &);
 Complex Wn(size_t n, size_t k, size_t N, bool positive = true);
+void fourierProcess(istream &, ostream &, bool);
 
 #endif

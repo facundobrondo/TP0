@@ -1,12 +1,16 @@
 #include "CommandLineArguments.h"
 
+const char flags[][MAX_LEN] = {HELP1, HELP2, METHOD1, METHOD2, INPUT1, INPUT2, OUTPUT1, OUTPUT2};
+
 bool argumentProcessing(size_t argc, char *argv[], Status &program){
 
-	if (argc == 1) // default set
+	//Default set
+	if(argc == 1)
 		return true;
 
 	Array<string> arguments(argc);
 	char2stringArray(argc, argv, arguments);
+
 	bool met = false, in = false, out = false;
 	bool st = true;
 
@@ -21,93 +25,76 @@ bool argumentProcessing(size_t argc, char *argv[], Status &program){
 
 		if(arguments[i] == "-m" || arguments[i] == "--method"){
 
-			if (met == true){ // method has already been set
-				st = false;
-				break;
-			}
-			met = true;
+			if(program.isMethodSet())
+				return false;
+			
+			program.methodSet();
 
 		    if(arguments[i + 1] == "idft"){
 				program.dft(false);
 				i++;
 				continue;
 			}
+
 			else if(arguments[i + 1] == "dft"){
 				i++;
 				continue;
 			}
-			else{
-				st = false;
-				break;
-			}
+
+			else
+				return false;
 
 		}
 
 		else if(arguments[i] == "-i" || arguments[i] == "--input"){
 
-			if (in == true ){
-				st = false;
-				break;
-			} //input has already been set
-			in = true;
+			if(program.isInputSet())
+				return false;
 
-			if (arguments[i + 1] == "-i"
-			||  arguments[i + 1] == "-o"
-			||  arguments[i + 1] == "-m"){ // palabras reservadas
-				st = false;
-				break;
-			}
+			program.inputSet();
+
+			if(isFlag(arguments[i + 1]))
+				return false;
 
 			if(i + 1 < argc){
 				program.newInFile(arguments[i + 1]);
 				i++;
 				continue;
 			}
-			else{
-				st = false;
-				break;
-			}
+
+			else
+				return false;
+
 		}
 
 		else if(arguments[i] == "-o" || arguments[i] == "--output"){
 
-			if (out == true){
-				st = false;
-				break;
-			} //onput has already been set
-			out = true;
+			if(program.isOutputSet())
+				return false;
 
-			if (arguments[i + 1] == "-i"
-			||  arguments[i + 1] == "-o"
-			||  arguments[i + 1] == "-m"){ // palabras reservadas
-				st = false;
-				break;
-			}
+			program.outputSet();
 
+			if(isFlag(arguments[i + 1]))
+				return false;
 
 			if(i + 1 < argc){
 				program.newOutFile(arguments[i + 1]);
 				i++;
 				continue;
 			}
-			else{
-				st = false;
-				break;
-			}
-		}
-		else{
-			st = false;
-			break;
-		}
-	}
 
-	if (st == false){
-		cout << "Error al invocar el programa" << endl;
-		cout << "Para mas informacion intente: -h ó --help" << endl;
-		return false;
+			else
+				return false;
+
+		}
+
+		else
+			return false;
+
 	}
 
 	return true;
+
 }
 
 bool displayHelp(){
@@ -115,12 +102,28 @@ bool displayHelp(){
 	ifstream helpFile(HELP_FILE);
 
 	if(helpFile.is_open()){
-		cout << helpFile.rdbuf();
+
+		cout << helpFile.rdbuf() << endl;
 		helpFile.close();
 		return true;
+
 	}
 
+	return false;
 
+}
+
+bool displayError(){
+
+	ifstream errorFile(ERROR_FILE);
+
+	if(errorFile.is_open()){
+
+		cout << errorFile.rdbuf() << endl;
+		errorFile.close();
+		return true;
+
+	}
 
 	return false;
 
@@ -153,5 +156,17 @@ void convert2string(size_t length, char cArray[], string &str){
 
 	for(size_t i = 0; i < length; i++)
 		str = str + cArray[i];
+
+}
+
+bool isFlag(string s){
+
+	size_t nFlags = sizeof(flags) / sizeof(flags[1]);
+
+	for(size_t i = 0; i < nFlags; i++)
+		if(s == flags[i])
+			return true;
+
+	return false;
 
 }

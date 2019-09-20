@@ -43,3 +43,32 @@ Complex Wn(size_t n, size_t k, size_t N, bool positive){
 	return Complex(cos(2 * PI * n * k / N), sin(2 * PI * n * k / N));
 
 }
+
+void fourierProcess(istream &is, ostream &os, bool performDft){
+
+	string line;
+
+	while(getline(is, line)){
+
+		stringstream stream(line);
+
+		Array<Complex> input, output;
+
+		stream >> input;
+
+		if(input.isEmpty())
+			break;
+
+		os << "Input Array: " << fixed << setprecision(2) << input << endl;
+
+		if(performDft ? os << "performing DFT" << endl : os << "performing iDFT" << endl)
+			dft(input, output);
+
+		else
+			idft(input, output);
+
+		os << "Output Array: " << fixed << setprecision(2) << output << endl;
+
+	}
+
+}
