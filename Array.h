@@ -47,6 +47,7 @@ template <class T>
 istream & operator>>(istream & is, Array<T> & data){
 
 	T element;
+	char c;
 
 	while(is >> element)
 		data += element;
@@ -63,8 +64,6 @@ ostream & operator<<(ostream & os, Array<T> & data){
 
 	for(size_t i = 0; i < data.getSize(); i++)
 		i != data.getSize() - 1 ? os << data[i] << ' ' : os << data[i] ;
-
-	os << endl;
 
 	return os;
 
