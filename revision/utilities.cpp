@@ -1,5 +1,3 @@
-// Utilidades.
-
 #include "utilities.h"
 
 void eraseUnnecessarySpaces(std::string &str, char c) {

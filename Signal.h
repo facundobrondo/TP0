@@ -3,131 +3,60 @@
 
 #include <iostream>
 #include <fstream>
+#include <iomanip>
+#include <sstream>
+#include <cmath>
 
 #include "Array.h"
 #include "Complex.h"
-#include "dft.h"
+#include "Status.h"
+
+#define PI 3.1415926536897932
+
+using namespace std;
+
+Complex Wn(size_t, size_t, size_t, bool = true);
+
+enum mode {IDFT, DFT};
 
 class Signal{
 
 	Array<Complex> inputSignal;
 	Array<Complex> outputSignal;
 
-	bool dftEnabled;
+	mode transform;
 
 public:
 
 	//Builders
 
 	Signal();
+	Signal(const Signal &);
 	~Signal();
 
 	//Status
 
-	bool performDft();
+	mode getMethod() const;
+	bool isInputEmpty() const;
+	Array<Complex> &getInput();
+	Array<Complex> &getOutput();
+
 
 	//Modifiers
 
 	void dft();
+	void idft();
+	void setMethod(mode);
+	void fourierProcess(istream &is, ostream &os);
+	void emptyInput();
+	void reset();
 
+	//Operators
 
-}
+	friend ostream & operator<< (ostream &, Signal &);
+	friend istream & operator>> (istream &, Signal &);
 
-Signal::Signal(){
-	bool dftEnabled = true;
-}
-
-Signal::~Signal(){}
-
-bool Signal::performDft(){
-	return dftEnabled;
-}
-
-void Signal::dft(){
-
-	Complex result;
-
-	for(size_t k = 0; k < inputSignal.getSize(); k++){
-
-		result = 0;
-
-		for(size_t n = 0; n < inputSignal.getSize(); n++)
-			result += inputSignal[n] * Wn(n, k, inputSignal.getSize());
-
-		outputSignal += result;
-
-	}
-
-}
-
-void Signal::idft(){
-
-	Complex result;
-
-	for(size_t n = 0; n < inputSignal.getSize(); n++){
-
-		result = 0;
-
-		for(size_t k = 0; k < inputSignal.getSize(); k++)
-			result += inputSignal[k] * Wn(n, k, inputSignal.getSize(), false);
-
-		result /= inputSignal.getSize();
-		outputSignal += result;
-
-	}
-
-}
-
-Complex Wn(size_t n, size_t k, size_t N, bool positive){
-
-	if(positive)
-		return Complex(cos(2 * PI * n * k / N), - sin(2 * PI * n * k / N));
-
-	return Complex(cos(2 * PI * n * k / N), sin(2 * PI * n * k / N));
-
-}
-
-void fourierProcess2(istream &is, ostream &os, bool performDft){
-
-	string line;
-
-	while(getline(is, line)){
-
-		stringstream stream(line);
-
-		//Array<Complex> input, output;
-		Signal input;
-
-		stream >> input;
-
-		if(input.isEmpty())
-			break;
-
-		os << "Input Array: " << fixed << setprecision(2) << input << endl;
-
-		if(performDft){
-			os << "performing DFT" << endl;
-			dft(input, output);
-		}
-
-		else{
-			os << "performing iDFT" << endl;
-			idft(input, output);
-		}
-
-		os << "Output Array: " << fixed << setprecision(2) << output << endl;
-
-	}
-
-}
-
-
-
-
-
-
+};
 
 
 #endif
-
-

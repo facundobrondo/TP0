@@ -22,8 +22,12 @@ public:
 
         //Status
 
-        size_t getSize();
-        bool isEmpty();
+        size_t getSize() const;
+        bool isEmpty() const;
+
+        //Modifiers
+
+        void empty();
 
         //Operators
 
@@ -42,6 +46,18 @@ public:
         friend istream & operator>> (istream &, Array<U> &);
 
 };
+
+template <class T>
+void Array<T>::empty(){
+
+	if(ptr){
+		delete []ptr;
+		ptr = NULL;
+		size = 0;
+	}
+
+
+}
 
 template <class T>
 istream & operator>>(istream & is, Array<T> & data){
@@ -115,7 +131,7 @@ Array<T> & Array<T>::operator+= (T & element){
 }
 
 template <class T>
-bool Array<T>::isEmpty(){
+bool Array<T>::isEmpty() const{
 
 	if(!ptr)
 		return true;
@@ -168,7 +184,7 @@ Array<T>::~Array(){
 }
 
 template <class T>
-size_t Array<T>::getSize(){
+size_t Array<T>::getSize() const{
 
 	return size;
 

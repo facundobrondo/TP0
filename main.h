@@ -8,7 +8,8 @@
 #include "Complex.h"
 #include "Status.h"
 #include "CommandLineArguments.h"
-#include "dft.h"
+#include "Signal.h"
+//#include "process.h"
 #include "stream.h"
 
 #endif

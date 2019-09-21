@@ -1,17 +1,19 @@
-// Utilidades.
-
-#ifndef _UTILITIES_H_
-#define _UTILITIES_H_
+#ifndef UTILITIES_H_INCLUDED
+#define UTILITIES_H_INCLUDED
 
 #include <string>
 #include <cstdlib>
 #include <cstring>
 
+using namespace std;
+
 // Borra los espacios innecesarios en una línea CSV.
-void eraseUnnecessarySpaces(std::string &, char);
+void eraseUnnecessarySpaces(string &, char);
+
 // Elimina el retorno de carro de un string.
-void eraseCarriageReturn(std::string &);
+void eraseCarriageReturn(string &);
+
 // Convierte tabulaciones en espacios.
-void convertTabToSpace(std::string &);
+void convertTabToSpace(string &);
 
 #endif

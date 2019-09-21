@@ -7,8 +7,8 @@ int main(int argc, char *argv[]){
 	//Status object is created to keep count of the program attributes
 
 	Status program;
-
 	fstream input, output;
+	Signal inSignal;
 
 	if(!argumentProcessing(argc, argv, program)){
 
@@ -25,7 +25,13 @@ int main(int argc, char *argv[]){
 	ostream &os = setOutStream(program, output);
 	istream &is = setInStream(program, input);
 
-	fourierProcess(is, os, program.dft());
+	if(program.dft())
+		inSignal.setMethod(DFT);
+
+	else
+		inSignal.setMethod(IDFT);	
+
+	inSignal.fourierProcess(is, os);
 
 	if(input.is_open())
 		input.close();
