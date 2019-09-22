@@ -14,7 +14,7 @@ all: main
 main: main.o Complex.o CommandLineArguments.o Status.o Signal.o stream.o 
 	$(CC) $(CFLAGS) -o $(EXEC) $(OBJS)
 
-main.o: main.cpp main.h Array.h CommandLineArguments.h Complex.h Status.h Signal.h stream.h
+main.o: main.cpp main.h
 	$(CC) -c main.cpp
 
 stream.o: stream.cpp stream.h

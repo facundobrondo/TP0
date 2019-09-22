@@ -56,7 +56,6 @@ void Array<T>::empty(){
 		size = 0;
 	}
 
-
 }
 
 template <class T>
@@ -65,8 +64,17 @@ istream & operator>>(istream & is, Array<T> & data){
 	T element;
 	char c;
 
-	while(is >> element)
-		data += element;
+	while(is >> element){
+
+		if(!is.fail())
+			data += element;
+
+		else{
+			is.clear(ios::badbit);
+			return is;
+		}
+
+	}
 
 	return is;
 

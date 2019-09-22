@@ -192,11 +192,13 @@ istream & operator>> (istream & is, Complex & c){
 	}
 
 	if(goodRead){
-
 		c.x = re;
 		c.y = im;
 
 	}
+
+	else if(is.eof())
+		return is;
 
 	else
 		is.clear(ios::badbit);

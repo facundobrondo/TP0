@@ -126,6 +126,11 @@ void Signal::fourierProcess(istream &is, ostream &os){
 
 		stream >> (*this);
 
+		if(stream.bad()){
+			os << "Bad input" << endl;
+			break;
+		}
+
 		if((*this).isInputEmpty())
 			break;
 
@@ -137,7 +142,7 @@ void Signal::fourierProcess(istream &is, ostream &os){
 
 		else{
 			os << "No operation selected" << endl;
-			return;
+			break;
 		}
 
 		os << (*this);
