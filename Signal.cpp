@@ -128,7 +128,7 @@ void Signal::fourierProcess(istream &is, ostream &os){
 
 		if(stream.bad()){
 			os << "Bad input" << endl;
-			break;
+			continue;
 		}
 
 		if((*this).isInputEmpty())

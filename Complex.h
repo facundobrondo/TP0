@@ -28,6 +28,9 @@ public:
 	double Im() const;
 	double absoluteValue() const;
 	double absoluteValue2() const;
+
+	//Modifiers 
+	
 	Complex conjugate() const;
 	Complex & conjugateThis();
 
