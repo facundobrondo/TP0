@@ -11,7 +11,7 @@ $(EXEC): $(OBJS)
 
 all: main
 
-main: main.o Complex.o CommandLineArguments.o Status.o Signal.o stream.o 
+main: main.o Complex.o CommandLineArguments.o Status.o Signal.o stream.o
 	$(CC) $(CFLAGS) -o $(EXEC) $(OBJS)
 
 main.o: main.cpp main.h
@@ -23,7 +23,7 @@ stream.o: stream.cpp stream.h
 Signal.o: Signal.cpp Signal.h
 	$(CC) -c Signal.cpp
 
-Complex.o: Complex.cpp Complex.h 
+Complex.o: Complex.cpp Complex.h
 	$(CC) -c Complex.cpp
 
 CommandLineArguments.o: CommandLineArguments.cpp CommandLineArguments.h
@@ -32,12 +32,12 @@ CommandLineArguments.o: CommandLineArguments.cpp CommandLineArguments.h
 Status.o: Status.cpp Status.h
 	$(CC) -c Status.cpp
 
-test: test.o Complex.o CommandLineArguments.o Status.o main.o
-	$(CC) $(CFLAGS) -o $(EXEC_T) $(OBJS_TEST) 
+test:
+	./tp0 < tests/input_dft.txt > tests/output_dft.txt
+	./tp0 -m idft < tests/input_idft.txt > tests/output_idft.txt
+	diff tests/output_dft.txt tests/reference_dft.txt
+	diff tests/output_idft.txt tests/reference_idft.txt
+	rm tests/output_*
 
-test.o: test.cpp Array.h Complex.h Status.h CommandLineArguments.h
-	$(CC) -c test.cpp
-
-
-clean: 
-	rm *.o
+clean:
+	rm *.o tests/output_*
