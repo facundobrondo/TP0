@@ -10,8 +10,6 @@ class Status{
 	string inFile, outFile;
 	bool help, discreteFourierTransform;
 
-	bool method, input, output;
-
 public:
 
 	//Builder
@@ -37,12 +35,6 @@ public:
 	void dft(bool);
 	void setHelp();
 	bool needHelp();
-	void methodSet();
-	void inputSet();
-	void outputSet();
-	void methodCleared();
-	void inputCleared();
-	void outputCleared();
 
 };
 

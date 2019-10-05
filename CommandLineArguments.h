@@ -18,9 +18,16 @@
 #define OUTPUT1 "-o"
 #define OUTPUT2 "--output"
 
+#define STANDARD "-"
+
 #define MAX_LEN 9
+#define OPTIONS 3
 
 extern const char flags[][MAX_LEN];
+
+extern bool (*f[OPTIONS])(Status &, string &);
+
+enum args{HELP, METHOD, INPUT, OUTPUT};
 
 void char2stringArray(size_t size, char *cArray[], Array<string> &sArray);
 size_t getLength(char *string);
@@ -28,6 +35,11 @@ void convert2string(size_t length, char cArray[], string &str);
 bool argumentProcessing(size_t argc, char *argv[], Status &);
 bool displayHelp();
 bool displayError();
-bool isFlag(string s);
+size_t isFlag(string s);
+bool isHelp(string s);
+
+bool processMethod(Status &, string &);
+bool processInput(Status &, string &);
+bool processOutput(Status &, string &);
 
 #endif

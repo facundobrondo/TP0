@@ -8,46 +8,6 @@ Status::Status(){
 
 	help = false;
 
-	method = false;
-	input = false;
-	output = false;
-
-}
-
-bool Status::isMethodSet(){
-	return method;
-}
-
-bool Status::isInputSet(){
-	return input;
-}
-
-bool Status::isOutputSet(){
-	return method;
-}
-
-void Status::methodSet(){
-	method = true;
-}
-
-void Status::inputSet(){
-	input = true;
-}
-
-void Status::outputSet(){
-	output = true;
-}
-
-void Status::methodCleared(){
-	method = false;
-}
-
-void Status::inputCleared(){
-	input = false;
-}
-
-void Status::outputCleared(){
-	output = false;
 }
 
 Status::~Status(){}
