@@ -7,7 +7,7 @@
 
 using namespace std;
 
-// Borra los espacios innecesarios en una línea CSV.
+// Borra los espacios innecesarios en una lÃ­nea CSV.
 void eraseUnnecessarySpaces(string &, char);
 
 // Elimina el retorno de carro de un string.
