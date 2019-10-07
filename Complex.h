@@ -6,14 +6,11 @@
 
 using namespace std;
 
-class Complex{
-
+class Complex {
 	double x, y;
 
 public:
-
-	//Builder
-
+	//Builders
 	Complex();
 	Complex(const double);
 	Complex(const double, const double);
@@ -21,7 +18,6 @@ public:
 	~Complex();
 
 	//Status
-
 	bool isZero() const;
 	bool isReal() const;
 	double Re() const;
@@ -30,12 +26,10 @@ public:
 	double absoluteValue2() const;
 
 	//Modifiers 
-	
 	Complex conjugate() const;
 	Complex & conjugateThis();
 
 	//Operators
-
 	Complex & operator= (const Complex &);
 	Complex & operator= (const double);
 
@@ -49,7 +43,6 @@ public:
 	Complex & operator/= (const Complex &);
 
 	//With real numbers
-
 	Complex & operator+= (const double);
 	friend Complex operator+ (const Complex &, const double);
 	Complex & operator-= (const double);
@@ -60,10 +53,8 @@ public:
 	friend Complex operator/ (const Complex &, const double);
 
 	//IO
-
-	friend ostream & operator<< (ostream &, const Complex &);
-	friend istream & operator>> (istream &,  Complex &);
-
+	friend ostream & operator<<(ostream &, const Complex &);
+	friend istream & operator>>(istream &,  Complex &);
 };
 
 #endif

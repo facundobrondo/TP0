@@ -5,37 +5,29 @@
 
 using namespace std;
 
-class Status{
-
+class Status {
 	string inFile, outFile;
 	bool help, discreteFourierTransform;
 
 public:
-
-	//Builder
-
+	//Builders
 	Status();
 	~Status();
 
 	//Status
-
 	bool dft();
 	bool stdIn();
 	bool stdOut();
-	string & getOutFile();
 	string & getInFile();
-	bool isOutputSet();
-	bool isInputSet();
+	string & getOutFile();
 	bool isMethodSet();
 
 	//Modifiers
-
 	void newInFile(string &);
 	void newOutFile(string &);
 	void dft(bool);
 	void setHelp();
 	bool needHelp();
-
 };
 
 #endif

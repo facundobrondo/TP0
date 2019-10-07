@@ -8,7 +8,9 @@
 
 using namespace std;
 
-ostream &setOutStream(Status &, fstream &);
-istream &setInStream(Status &, fstream &);
+//Set program input stream.
+istream & setInStream(Status &, fstream &);
+//Set program output stream.
+ostream & setOutStream(Status &, fstream &);
 
 #endif

@@ -1,1 +1,1 @@
-An error occured while processing the command line arguments: Invalid argument or option
+An error occured while processing the command line arguments: Invalid argument or option.

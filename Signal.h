@@ -9,7 +9,6 @@
 
 #include "Array.h"
 #include "Complex.h"
-#include "Status.h"
 
 #define PI 3.1415926536897932
 
@@ -19,8 +18,7 @@ Complex Wn(size_t, size_t, size_t, bool = true);
 
 enum mode {IDFT, DFT};
 
-class Signal{
-
+class Signal {
 	Array<Complex> inputSignal;
 	Array<Complex> outputSignal;
 
@@ -29,34 +27,27 @@ class Signal{
 public:
 
 	//Builders
-
 	Signal();
 	Signal(const Signal &);
 	~Signal();
 
 	//Status
-
 	mode getMethod() const;
 	bool isInputEmpty() const;
 	Array<Complex> &getInput();
 	Array<Complex> &getOutput();
 
-
 	//Modifiers
-
 	void dft();
 	void idft();
 	void setMethod(mode);
-	void fourierProcess(istream &is, ostream &os);
 	void emptyInput();
 	void reset();
-
+	void fourierProcess(istream &is, ostream &os);
+	
 	//Operators
-
-	friend ostream & operator<< (ostream &, Signal &);
-	friend istream & operator>> (istream &, Signal &);
-
+	friend ostream & operator<<(ostream &, Signal &);
+	friend istream & operator>>(istream &, Signal &);
 };
-
 
 #endif

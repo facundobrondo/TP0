@@ -1,43 +1,88 @@
+#TP0 Makefile
 CC = g++
 CFLAGS = -g -Wall -pedantic
-SRCS = test.cpp Complex.cpp CommandLineArguments.cpp
-OBJS= main.o Complex.o CommandLineArguments.o Status.o Signal.o stream.o
-OBJS_TEST = test.o Complex.o CommandLineArguments.o Status.o Signal.o stream.o
-EXEC = tp0
-EXEC_T = test
+OBJS = Complex.o CommandLineArguments.o Status.o Signal.o stream.o
+VALGRINDFLAGS = --tool=memcheck
 
-$(EXEC): $(OBJS)
-	$(CC) $(CFLAGS) -o $(EXEC) $(OBJS)
+#Run all
+all: tp0 diff_tp0 test-dft test-idft test-dft-valgrind test-idft-valgrind
 
-all: main
-
-main: main.o Complex.o CommandLineArguments.o Status.o Signal.o stream.o
-	$(CC) $(CFLAGS) -o $(EXEC) $(OBJS)
+#Create tp0 program
+tp0: main.o $(OBJS)
+	$(CC) $(CFLAGS) -o tp0 main.o $(OBJS)
 
 main.o: main.cpp main.h
-	$(CC) -c main.cpp
-
-stream.o: stream.cpp stream.h
-	$(CC) -c stream.cpp
+	$(CC) $(CFLAGS) -c main.cpp
 
 Signal.o: Signal.cpp Signal.h
-	$(CC) -c Signal.cpp
+	$(CC) $(CFLAGS) -c Signal.cpp
 
 Complex.o: Complex.cpp Complex.h
-	$(CC) -c Complex.cpp
+	$(CC) $(CFLAGS) -c Complex.cpp
 
 CommandLineArguments.o: CommandLineArguments.cpp CommandLineArguments.h
-	$(CC) -c CommandLineArguments.cpp
+	$(CC) $(CFLAGS) -c CommandLineArguments.cpp
+
+stream.o: stream.cpp stream.h
+	$(CC) $(CFLAGS) -c stream.cpp
 
 Status.o: Status.cpp Status.h
-	$(CC) -c Status.cpp
+	$(CC) $(CFLAGS) -c Status.cpp
 
-test:
-	./tp0 < tests/input_dft.txt > tests/output_dft.txt
-	./tp0 -m idft < tests/input_idft.txt > tests/output_idft.txt
-	diff tests/output_dft.txt tests/reference_dft.txt
-	diff tests/output_idft.txt tests/reference_idft.txt
-	rm tests/output_*
+#Create diff_tp0 program
+diff_tp0: diff_tp0.cpp $(OBJS)
+	$(CC) $(CFLAGS) -o diff_tp0 diff_tp0.cpp cmdline.cpp $(OBJS)
 
+#Run tests cases
+test-dft: tp0 diff_tp0
+	@echo Testing dft cases.
+	@set -e; for t in `seq 1 9`; do                                    \
+		echo Testing: $$t.;       			                           \
+		./tp0 < tests-dft/test$$t.in > tests-dft/test$$t.out;          \
+		./diff_tp0 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out;  \
+		./tp0 -m dft -i tests-dft/test$$t.in -o tests-dft/test$$t.out; \
+		./diff_tp0 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out;  \
+	done 
+	@echo Test OK.
+
+test-idft: tp0 diff_tp0
+	@echo Testing idft cases.
+	@set -e; for t in `seq 10 17`; do                                    \
+		echo Testing: $$t.;       			                           \
+		./tp0 -m idft < tests-idft/test$$t.in > tests-idft/test$$t.out;          \
+		./diff_tp0 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out;  \
+		./tp0 -m idft -i tests-idft/test$$t.in -o tests-idft/test$$t.out; \
+		./diff_tp0 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out;  \
+	done 
+	@echo Test OK.
+
+#Run tests cases with Valgrind
+test-dft-valgrind: tp0 diff_tp0
+	@echo Testing dft cases with Valgrind.
+	@set -e; for t in `seq 1 9`; do                                        \
+		echo Testing: $$t.;       			                               \
+		valgrind $(VALGRINDFLAGS) 2>/dev/null                              \
+			./tp0 < tests-dft/test$$t.in > tests-dft/test$$t.out;          \
+		./diff_tp0 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out ;     \
+		valgrind $(VALGRINDFLAGS) 2>/dev/null                              \
+	  		./tp0 -m dft -i tests-dft/test$$t.in -o tests-dft/test$$t.out; \
+	  	./diff_tp0 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out ;     \
+	done
+	@echo Test OK.
+
+test-idft-valgrind: tp0 diff_tp0
+	@echo Testing idft cases with Valgrind.
+	@set -e; for t in `seq 10 17`; do                                        \
+		echo Testing: $$t.;       			                               \
+		valgrind $(VALGRINDFLAGS) 2>/dev/null                              \
+			./tp0 -m idft < tests-idft/test$$t.in > tests-idft/test$$t.out;          \
+		./diff_tp0 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;     \
+		valgrind $(VALGRINDFLAGS) 2>/dev/null                              \
+	  		./tp0 -m idft -i tests-idft/test$$t.in -o tests-idft/test$$t.out; \
+	  	./diff_tp0 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;     \
+	done
+	@echo Test OK.
+
+#Delete .o files
 clean:
-	rm *.o tests/output_*
+	rm *.o
