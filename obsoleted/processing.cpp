@@ -77,7 +77,7 @@ void printSignals(Array<Signal> &signals, ostream &os, bool dft) {
 void processSignals(std::istream &is, std::ostream &os, bool dft) {
 	Array<Signal> signals;
 	
-	//En signals cargar las señales del archivo de entrada según sea temp o frec
+	//En signals cargar las seÃ±ales del archivo de entrada segÃºn sea temp o frec
 	loadInputFile(signals, is, dft);
 	cout << "hasta aca\n";
 	if (dft) {
