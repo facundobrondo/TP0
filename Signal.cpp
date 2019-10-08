@@ -51,10 +51,6 @@ istream & operator>> (istream &is, Signal &sig) {
 	return is;
 }
 
-
-
-
-
 //Modifiers--------------------------------------
 void Signal::dft(){
 
@@ -110,18 +106,20 @@ void Signal::fourierProcess(istream &is, ostream &os) {
 			continue;
 		}
 
-		if ((*this).isInputEmpty())
+		//if ((*this).isInputEmpty())
+		if ( inputSignal.isEmpty() )
 			continue;
 
-		if ((*this).getMethod() == DFT)
-			(*this).dft();
-		else if ((*this).getMethod() == IDFT)
-			(*this).idft();
+		//if ((*this).getMethod() == DFT)
+		if (transform == DFT)
+			dft();
+		else if (transform == IDFT)
+			idft();
 		else {
 			os << "No operation selected" << endl;
 			break;
 		}
-		
+
 		os << (*this);
 	}
 }

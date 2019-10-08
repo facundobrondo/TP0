@@ -4,6 +4,9 @@ CFLAGS = -g -Wall -pedantic
 OBJS = Complex.o CommandLineArguments.o Status.o Signal.o stream.o
 VALGRINDFLAGS = --tool=memcheck
 
+#install
+install: tp0
+
 #Run all
 all: tp0 diff_tp0 test-dft test-idft test-dft-valgrind test-idft-valgrind
 
