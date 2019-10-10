@@ -3,7 +3,8 @@
 using namespace std;
 
 //Builders--------------------------------------
-Signal::Signal() {
+
+Signal::Signal(){
 	transform = DFT;
 }
 
@@ -13,37 +14,37 @@ Signal::Signal(const Signal &right) {
 	transform = right.transform;
 }
 
-Signal::~Signal() {}
+Signal::~Signal(){}
 
 //Status-----------------------------------------
-bool Signal::isInputEmpty() const {
+
+bool Signal::isInputEmpty()const{
 	if(inputSignal.isEmpty())
 		return true;
 
 	return false;
 }
 
-mode Signal::getMethod() const {
+mode Signal::getMethod()const{
 	return transform;
 }
 
-Array<Complex> & Signal::getInput() {
+Array<Complex> & Signal::getInput(){
 	return inputSignal;
 }
 
-Array<Complex> & Signal::getOutput() {
+Array<Complex> & Signal::getOutput(){
 	return outputSignal;
 }
 
-
-//STD operators---------------------------------
+//STDIO operators-------------------------------
 
 ostream & operator<< (ostream &os, Signal &sig){
 	os << fixed << setprecision(6) << sig.getOutput() << endl;
 	return os;
 }
 
-istream & operator>> (istream &is, Signal &sig) {
+istream & operator>> (istream &is, Signal &sig){
 	sig.reset();
 
 	is >> sig.inputSignal;
@@ -52,11 +53,12 @@ istream & operator>> (istream &is, Signal &sig) {
 }
 
 //Modifiers--------------------------------------
+
 void Signal::dft(){
 
 	Complex result;
 
-	for(size_t k = 0; k < inputSignal.getSize(); k++) {
+	for(size_t k = 0; k < inputSignal.getSize(); k++){
 		result = 0;
 
 		for (size_t n = 0; n < inputSignal.getSize(); n++)
@@ -69,7 +71,7 @@ void Signal::dft(){
 void Signal::idft() {
 	Complex result;
 
-	for(size_t n = 0; n < inputSignal.getSize(); n++) {
+	for(size_t n = 0; n < inputSignal.getSize(); n++){
 		result = 0;
 
 		for (size_t k = 0; k < inputSignal.getSize(); k++)
@@ -80,11 +82,11 @@ void Signal::idft() {
 	}
 }
 
-void Signal::setMethod(mode m) {
+void Signal::setMethod(mode m){
 	transform = m;
 }
 
-void Signal::emptyInput() {
+void Signal::emptyInput(){
 	inputSignal.empty();
 }
 
@@ -93,39 +95,44 @@ void Signal::reset(){
 	outputSignal.empty();
 }
 
-void Signal::fourierProcess(istream &is, ostream &os) {
+void Signal::fourierProcess(istream &is, ostream &os){
+
 	string line;
 
-	while (getline(is, line)) {
+	while(getline(is, line)){
+
 		stringstream stream(line);
 
 		stream >> (*this);
 
-		if (stream.bad()) {
+		if (stream.bad()){
 			os << "Bad input" << endl;
 			continue;
 		}
 
-		//if ((*this).isInputEmpty())
-		if ( inputSignal.isEmpty() )
+		if(inputSignal.isEmpty())
 			continue;
 
-		//if ((*this).getMethod() == DFT)
-		if (transform == DFT)
+		if(transform == DFT)
 			dft();
-		else if (transform == IDFT)
+
+		else if(transform == IDFT)
 			idft();
-		else {
+
+		else{
 			os << "No operation selected" << endl;
 			break;
 		}
 
 		os << (*this);
+
 	}
+
 }
 
 //Auxiliary function----------------------------------------
-Complex Wn(size_t n, size_t k, size_t N, bool positive) {
+
+Complex Wn(size_t n, size_t k, size_t N, bool positive){
 	if(positive)
 		return Complex(cos(2 * PI * n * k / N), - sin(2 * PI * n * k / N));
 

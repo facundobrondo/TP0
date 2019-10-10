@@ -1,25 +1,27 @@
 #include "Status.h"
 
 //Builders----------------------------------------
-Status::Status() {
+
+Status::Status(){
 	inFile = "";
 	outFile = "";
 	discreteFourierTransform = true;
 	help = false;
 }
 
-Status::~Status() {}
+Status::~Status(){}
 
 //Status----------------------------------------
-bool Status::dft() {
+
+bool Status::dft(){
 	return discreteFourierTransform;
 }
 
-bool Status::stdIn() {
+bool Status::stdIn(){
 	return inFile.empty();
 }
 
-bool Status::stdOut() {
+bool Status::stdOut(){
 	return outFile.empty();
 }
 
@@ -27,27 +29,28 @@ string & Status::getInFile(){
 	return inFile;
 }
 
-string & Status::getOutFile() {
+string & Status::getOutFile(){
 	return outFile;
 }
 
 //Modifiers------------------------------------
-void Status::newInFile(string &iF) {
+
+void Status::newInFile(string &iF){
 	inFile += iF;
 }
 
-void Status::newOutFile(string &oF) {
+void Status::newOutFile(string &oF){
 	outFile += oF;
 }
 
-void Status::dft(bool state) {
+void Status::dft(bool state){
 	discreteFourierTransform = state;
 }
 
-void Status::setHelp() {
+void Status::setHelp(){
 	help = true;
 }
 
-bool Status::needHelp() {
+bool Status::needHelp(){
 	return help;
 }

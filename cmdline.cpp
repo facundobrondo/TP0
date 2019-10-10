@@ -6,7 +6,7 @@
 
 using namespace std;
 
-cmdline::cmdline() {
+cmdline::cmdline(){
 }
 
 cmdline::cmdline(option_t *table) : option_table(table) {

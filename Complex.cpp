@@ -1,85 +1,89 @@
 #include "Complex.h"
 
-//Builders
-Complex::Complex() {
+//Builders----------------------
+
+Complex::Complex(){
 	x = 0;
 	y = 0;
 }
 
-Complex::Complex(const double Re) {
+Complex::Complex(const double Re){
 	x = Re;
 	y = 0;
 }
 
-Complex::Complex(const double Re, const double Im) {
+Complex::Complex(const double Re, const double Im){
 	x = Re;
 	y = Im;
 }
 
-Complex::Complex(const Complex & c) {
+Complex::Complex(const Complex & c){
 	x = c.x;
 	y = c.y;
 }
 
-Complex::~Complex() {}
+Complex::~Complex(){}
 
-//Status
-bool Complex::isZero() const {
+//Status----------------------
+
+bool Complex::isZero()const{
 	return !x && !y;
 }
 
-bool Complex::isReal() const {
+bool Complex::isReal()const{
 	return !y;
 }
 
-double Complex::Re() const {
+double Complex::Re()const{
 	return x;
 }
 
-double Complex::Im() const {
+double Complex::Im()const{
 	return y;
 }
 
-double Complex::absoluteValue() const {
+double Complex::absoluteValue()const{
 	return sqrt(pow(x, 2) + pow(y, 2));
 }
 
-double Complex::absoluteValue2() const {
+double Complex::absoluteValue2()const{
 	return pow(x, 2) + pow(y, 2);
 }
 
-//Modifiers
-Complex Complex::conjugate() const {
+//Modifiers----------------------
+
+Complex Complex::conjugate()const{
 	return Complex(x, y * -1);
 }
 
-Complex & Complex::conjugateThis() {
+Complex & Complex::conjugateThis(){
 	y *= -1;
 	return *this;
 }
 
-//Operators
-Complex operator+ (const Complex & a, const double Re) {
+//Operators----------------------
+
+Complex operator+(const Complex & a, const double Re){
 	return Complex(a.x + Re, a.y);
 }
 
-Complex operator+ (const Complex & a, const Complex & b) {
+Complex operator+(const Complex & a, const Complex & b){
 	return Complex(a.x + b.x, a.y + b.y);
 }
 
-Complex operator- (const Complex & a, const double Re) {
+Complex operator-(const Complex & a, const double Re){
 	return Complex(a.x - Re, a.y);
 }
 
-Complex operator- (const Complex & a, const Complex & b) {
+Complex operator-(const Complex & a, const Complex & b){
 	return Complex(a.x - b.x, a.y - b.y);
 }
 
-Complex operator* (const Complex & a, const double mul) {
+Complex operator*(const Complex & a, const double mul){
 	return Complex(a.x * mul, a.y * mul);
 }
 
-Complex operator* (const Complex & a, const Complex & b) {
+Complex operator*(const Complex & a, const Complex & b){
 	double Re, Im;
 	Re = a.x * b.x - a.y * b.y;
 	Im = b.y * a.x + a.y * b.x;
@@ -87,65 +91,65 @@ Complex operator* (const Complex & a, const Complex & b) {
 	return Complex(Re, Im);
 }
 
-Complex operator/ (const Complex & a, const double div) {
+Complex operator/(const Complex & a, const double div){
 	return Complex(a.x / div, a.y / div);
 }
 
-Complex operator/ (const Complex & a, const Complex & b) {
+Complex operator/(const Complex & a, const Complex & b){
 	Complex c = a * b.conjugate();
 	c /= b.absoluteValue2();
 	
 	return c;
 }
 
-Complex & Complex::operator= (const Complex & right) {
+Complex & Complex::operator=(const Complex & right){
 	x = right.x;
 	y = right.y;
 
 	return *this;
 }
 
-Complex & Complex::operator= (const double right){
+Complex & Complex::operator=(const double right){
 	x = right;
 	y = 0;
 
 	return *this;
 }
 
-Complex & Complex::operator+= (const double right){
+Complex & Complex::operator+=(const double right){
 	x += right;
 	
 	return *this;
 }
 
-Complex & Complex::operator+= (const Complex & right){
+Complex & Complex::operator+=(const Complex & right){
 	x += right.x;
 	y += right.y;
 	
 	return *this;
 }
 
-Complex & Complex::operator-= (const double right){
+Complex & Complex::operator-=(const double right){
 	x -= right;
 	
 	return *this;
 }
 
-Complex & Complex::operator-= (const Complex & right){
+Complex & Complex::operator-=(const Complex & right){
 	x -= right.x;
 	y -= right.y;
 	
 	return *this;
 }
 
-Complex & Complex::operator*= (const double mul){
+Complex & Complex::operator*=(const double mul){
 	x *= mul;
 	y *= mul;
 	
 	return *this;
 }
 
-Complex & Complex::operator*= (const Complex & right){
+Complex & Complex::operator*=(const Complex & right){
 	double oldX = x;
 	x = x * right.x - y * right.y;
 	y = right.y * oldX + y * right.x;
@@ -154,51 +158,62 @@ Complex & Complex::operator*= (const Complex & right){
 }
 
 
-Complex & Complex::operator/= (const double div){
+Complex & Complex::operator/=(const double div){
 	x /= div;
 	y /= div;
 	
 	return *this;
 }
 
-Complex & Complex::operator/= (const Complex & right){
+Complex & Complex::operator/=(const Complex & right){
 	*this *= right.conjugate();
 	*this /= right.absoluteValue2();
 	
 	return *this;
 }
 
-//IO
-ostream & operator<< (ostream & os, const Complex & c) {
+//IO----------------------
+
+ostream & operator<<(ostream & os, const Complex & c){
 	return os << '(' << c.x << ", " << c.y << ')';
 }
 
-istream & operator>> (istream & is, Complex & c) {
+istream & operator>>(istream & is, Complex & c){
+
 	char ch = 0;
 	double re = 0, im = 0;
 	bool goodRead = false;
 
-	if (is >> ch && ch == '(') {
+	if(is >> ch && ch == '('){
+
 		if(is >> re)
 			if(is >> ch && ch == ',')
 				if(is >> im)
 					if(is >> ch && ch == ')')
 						goodRead = true;
+
 	}
-	else if (is.good()) {
+
+	else if(is.good()){
+
 		is.putback(ch);
 
 		if (is >> re)
 			goodRead = true;
+
 	}
 
-	if (goodRead) {
+	if(goodRead){
 		c.x = re;
 		c.y = im;
-	} else if (is.eof())
+	} 
+
+	else if(is.eof())
 		return is;
+
 	else
 		is.clear(ios::badbit);
 
 	return is;
+	
 }
