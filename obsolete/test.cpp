@@ -3,10 +3,17 @@
 #include "Array.h"
 #include "Complex.h"
 #include "Status.h"
+#include "Matrix.h"
 
 using namespace std;
 
 int main(void){
+
+	Matrix<int> m;
+
+	cout << m << endl;
+
+	/*
 
 	Array <Complex> a;
 
@@ -22,7 +29,7 @@ int main(void){
 	input.close();
 
 
-	/*Status program;
+	Status program;
 
 	cout << (program.dft() ? "DFT" : "iDFT") << endl;
 	cout << "I:" << program.getInFile() << endl;
@@ -184,6 +191,7 @@ int main(void){
 		CArr[i] += i;
 
 	cout << CArr << endl;
+
 	*/
 
 	return 0;

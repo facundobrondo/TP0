@@ -38,6 +38,7 @@ int main(int argc, char *argv[]){
 	else
 		inSignal.setMethod(IDFT);	
 
+
 	//Se aplica el proceso de fourier.
 	//Se toma un vector, se transforma (dft o idft) y se saca por os.
 	//Seguira ejecutandose de esa forma hasta no haber mas vectores.

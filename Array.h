@@ -5,40 +5,46 @@
 
 using namespace std;
 
+#define MEMSIZE 10
+
 template <class T>
 class Array{
 
-        size_t size;
-        T *ptr;
+    size_t size;
+    size_t availableMem;
+    T *ptr;
 
 public:
 
-        //Builder
-        Array();
-        Array(const size_t);
-        Array(const Array<T> &);
-        ~Array();
+    //Builder
+    Array();
+    Array(const size_t);
+    Array(const Array<T> &);
+    ~Array();
 
-        //Status
-        size_t getSize()const;
-        bool isEmpty()const;
+    //Status
+    size_t getSize()const;
+    bool isEmpty()const;
+    Array<T> evenIndex();
+    Array<T> oddIndex();
 
-        //Modifiers
-        void empty();
+    //Modifiers
+    void empty();
+    void reSize(size_t);
 
-        //Operators
-        Array<T> & operator=(const Array<T> &);
-        bool operator==(const Array<T> &);
-        T & operator[](size_t);
-        Array<T> & operator+=(Array<T> &);
-        Array<T> & operator+=(T &);
+    //Operators
+    Array<T> & operator=(const Array<T> &);
+    bool operator==(const Array<T> &);
+    T & operator[](size_t);
+    Array<T> & operator+=(Array<T> &);
+    Array<T> & operator+=(T &);
 
-        //IO
-        template <class U>
-        friend ostream & operator<< (ostream &, const Array<U> &);
+    //IO
+    template <class U>
+    friend ostream & operator<< (ostream &, Array<U> &);
 
-        template <class U>
-        friend istream & operator>> (istream &, Array<U> &);
+    template <class U>
+    friend istream & operator>> (istream &, Array<U> &);
 
 };
 
@@ -47,11 +53,13 @@ template <class T>
 Array<T>::Array(){
 	ptr = NULL;
 	size = 0;
+	availableMem = 0;
 }
 
 template <class T>
 Array<T>::Array(const size_t newSize){
 	size = newSize;
+	availableMem = size;
 	ptr = new T[size];
 }
 
@@ -59,6 +67,7 @@ template <class T>
 Array<T>::Array(const Array<T> & init){
 
 	size = init.size;
+	availableMem = size;
 
 	if (!size)
 		ptr = NULL;
@@ -82,6 +91,30 @@ Array<T>::~Array(){
 
 //Status
 template <class T>
+Array<T> Array<T>::evenIndex(){
+
+	Array<T> aux;
+
+	for(size_t i = 0; i < size; i += 2)
+		aux += ptr[i];
+
+	return aux;
+
+}
+
+template <class T>
+Array<T> Array<T>::oddIndex(){
+
+	Array<T> aux;
+
+	for(size_t i = 1; i < size; i += 2)
+		aux += ptr[i];
+
+	return aux;
+
+}
+
+template <class T>
 size_t Array<T>::getSize()const{
 	return size;
 }
@@ -98,12 +131,29 @@ bool Array<T>::isEmpty()const{
 
 //Modifiers
 template <class T>
+void Array<T>::reSize(size_t newSize){
+
+	T *aux = new T[newSize];
+
+	for(size_t i = 0; i < newSize; i++)
+		if(i < size)
+			aux[i] = ptr[i];
+
+	delete []ptr;
+	ptr = aux;
+	size = newSize;
+	availableMem = newSize;
+
+}
+
+template <class T>
 void Array<T>::empty(){
 
 	if(ptr){
 		delete []ptr;
 		ptr = NULL;
 		size = 0;
+		availableMem = size;
 	}
 
 }
@@ -121,6 +171,7 @@ Array<T> & Array<T>::operator=(const Array<T> & right){
 			delete []ptr;
 
 			size = right.size;
+			availableMem = size;
 
 			ptr = aux;
 
@@ -169,6 +220,7 @@ Array<T> & Array<T>::operator+=(Array<T> & data){
 		delete []ptr;
 
 	size = newSize;
+	availableMem = size;
 	ptr = ref;
 
 	return *this;
@@ -178,19 +230,24 @@ Array<T> & Array<T>::operator+=(Array<T> & data){
 template <class T>
 Array<T> & Array<T>::operator+=(T & element){
 
+	if(availableMem == size){
+
+		availableMem += MEMSIZE;
+		T *ref = new T[availableMem];
+
+		for(size_t i = 0; i < size; i++)
+			ref[i] = ptr[i];
+
+		if(ptr)
+			delete []ptr;
+
+		ptr = ref;
+
+	}
+
 	size++;
 
-	T *ref = new T[size];
-
-	for(size_t i = 0; i < size - 1; i++)
-		ref[i] = ptr[i];
-
-	ref[size - 1] = element;
-
-	if(ptr)
-		delete []ptr;
-
-	ptr = ref;
+	ptr[size - 1] = element;
 
 	return *this;
 

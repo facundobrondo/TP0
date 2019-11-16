@@ -54,6 +54,46 @@ istream & operator>> (istream &is, Signal &sig){
 
 //Modifiers--------------------------------------
 
+void Signal::fft(){
+
+	outputSignal = fastFourierTransform(inputSignal);
+
+}
+
+Array<Complex> Signal::fastFourierTransform(Array<Complex> x){
+
+	size_t N = x.getSize();
+
+	if(N > 1){
+
+		Array<Complex> X(N);
+
+		addZeros(x);
+
+		Array<Complex> p = x.evenIndex();
+		cout << p << endl;
+		Array<Complex> q = x.oddIndex();
+		cout << q << endl;
+
+		Array<Complex> P = fastFourierTransform(p);
+		Array<Complex> Q = fastFourierTransform(q);
+
+		for(size_t k = 0; k < N / 2; k++)
+			X[k] = P[k] + Q[k] * Wn(1, k, N);
+
+		for(size_t k = N / 2; k < N; k++){
+			X[k] = P[k - N / 2] + Q[k - N / 2] * Wn(1, k, N);
+		}
+
+		return X;
+
+	}
+
+	else
+		return x;
+
+}
+
 void Signal::dft(){
 
 	Complex result;
@@ -114,7 +154,8 @@ void Signal::fourierProcess(istream &is, ostream &os){
 			continue;
 
 		if(transform == DFT)
-			dft();
+			//dft();
+			fft();
 
 		else if(transform == IDFT)
 			idft();
@@ -137,4 +178,13 @@ Complex Wn(size_t n, size_t k, size_t N, bool positive){
 		return Complex(cos(2 * PI * n * k / N), - sin(2 * PI * n * k / N));
 
 	return Complex(cos(2 * PI * n * k / N), sin(2 * PI * n * k / N));
+}
+
+void addZeros(Array<Complex> & in){
+
+	Complex zero;
+
+	if(in.getSize() % 2)
+		in += zero;
+
 }
