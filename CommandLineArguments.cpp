@@ -35,18 +35,14 @@ bool argumentProcessing(size_t argc, char *argv[], Status &program){
 
 bool processMethod(Status &program, string &option){
 
-	if(option != STANDARD){
+	if(option == "idft")
+		program.dft(false);
 
-		if(option == "idft")
-			program.dft(false);
+	else if(option == "dft" || option == STANDARD)
+		program.dft(true);
 
-		else if(option == "dft")
-			program.dft(true);
-
-		else
-			return false;
-
-	}
+	else
+		return false;
 
 	return true;
 
