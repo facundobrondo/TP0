@@ -39,6 +39,9 @@ public:
     Array<T> & operator+=(Array<T> &);
     Array<T> & operator+=(T &);
 
+    template<class U>
+    friend Array<U> operator*(const Array<U> &, const double);
+
     //IO
     template <class U>
     friend ostream & operator<< (ostream &, Array<U> &);
@@ -47,6 +50,21 @@ public:
     friend istream & operator>> (istream &, Array<U> &);
 
 };
+
+template <class T>
+Array<T> operator*(const Array<T> &data, const double k){
+
+	Array<T> aux = data;
+
+	for(size_t i = 0; i < aux.getSize(); i++){
+
+		aux[i] *= k;
+
+	}
+
+	return aux;
+
+}
 
 //Builders
 template <class T>

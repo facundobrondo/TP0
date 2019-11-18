@@ -26,7 +26,7 @@ class Signal {
 
 	mode transform;
 
-	Array<Complex> fastFourierTransform(Array<Complex>);
+	Array<Complex> fastFourierTransform(Array<Complex>, bool = false);
 
 public:
 

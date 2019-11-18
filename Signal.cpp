@@ -64,10 +64,11 @@ void Signal::fft(){
 
 void Signal::ifft(){
 
-	
+	outputSignal = fastFourierTransform(inputSignal, true);
+
 }
 
-Array<Complex> Signal::fastFourierTransform(Array<Complex> x){
+Array<Complex> Signal::fastFourierTransform(Array<Complex> x, bool inverse){
 
 	size_t N = x.getSize();
 
@@ -78,26 +79,24 @@ Array<Complex> Signal::fastFourierTransform(Array<Complex> x){
 		addZeros(x);
 
 		Array<Complex> p = x.evenIndex();
-		cout << p << endl;
 		Array<Complex> q = x.oddIndex();
-		cout << q << endl;
 
 		Array<Complex> P = fastFourierTransform(p);
 		Array<Complex> Q = fastFourierTransform(q);
 
 		for(size_t k = 0; k < N / 2; k++)
-			X[k] = P[k] + Q[k] * Wn(1, k, N);
+			X[k] = P[k] + Q[k] * Wn(inverse ? -1 : 1, k, N);
 
 		for(size_t k = N / 2; k < N; k++){
-			X[k] = P[k - N / 2] + Q[k - N / 2] * Wn(1, k, N);
+			X[k] = P[k - N / 2] + Q[k - N / 2] * Wn(inverse ? -1 : 1, k, N);
 		}
 
-		return X;
+		return inverse ? X * (1.0 / N) : X;
 
 	}
 
 	else
-		return x;
+		return inverse ? x *(1.0 / N) : x;
 
 }
 
