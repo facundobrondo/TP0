@@ -32,12 +32,7 @@ int main(int argc, char *argv[]){
 
 	//Se settea el metodo a aplicar dentro de un atributo de Signal.
 	
-	if(program.dft())
-		inSignal.setMethod(DFT);
-
-	else
-		inSignal.setMethod(IDFT);	
-
+	program.configureSignal(inSignal);
 
 	//Se aplica el proceso de fourier.
 	//Se toma un vector, se transforma (dft o idft) y se saca por os.

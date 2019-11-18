@@ -35,11 +35,21 @@ bool argumentProcessing(size_t argc, char *argv[], Status &program){
 
 bool processMethod(Status &program, string &option){
 
-	if(option == "idft")
-		program.dft(false);
+	if(option == IDFT)
+		program.setDFT(false);
 
-	else if(option == "dft" || option == STANDARD)
-		program.dft(true);
+	else if(option == DFT || option == STANDARD)
+		program.setDFT(true);
+
+	else if(option == FFT){
+		program.setDFT(true);
+		program.setFFT(true);
+	}
+
+	else if (option == IFFT){
+		program.setDFT(false);
+		program.setFFT(true);
+	}
 
 	else
 		return false;

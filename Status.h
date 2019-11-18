@@ -2,12 +2,13 @@
 #define STATUS_H_INCLUDED
 
 #include <iostream>
+#include "Signal.h"
 
 using namespace std;
 
 class Status {
 	string inFile, outFile;
-	bool help, discreteFourierTransform;
+	bool help, transform, fast, iterative;
 
 public:
 	//Builders
@@ -15,7 +16,9 @@ public:
 	~Status();
 
 	//Status
-	bool dft();
+	bool getMethod();
+	bool getSpeed();
+	bool getIterative();
 	bool stdIn();
 	bool stdOut();
 	string & getInFile();
@@ -25,9 +28,11 @@ public:
 	//Modifiers
 	void newInFile(string &);
 	void newOutFile(string &);
-	void dft(bool);
+	void setDFT(bool);
+	void setFFT(bool);
 	void setHelp();
 	bool needHelp();
+	void configureSignal(Signal &);
 };
 
 #endif

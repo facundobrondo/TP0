@@ -19,6 +19,10 @@
 #define OUTPUT2 "--output"
 
 #define STANDARD "-"
+#define DFT "dft"
+#define IDFT "idft"
+#define FFT "fft"
+#define IFFT "ifft"
 
 #define MAX_LEN 9
 #define OPTIONS 3

@@ -11,13 +11,14 @@
 #include "Complex.h"
 
 #define PI 3.1415926536897932
+#define METHODS 8
 
 using namespace std;
 
 Complex Wn(size_t, size_t, size_t, bool = true);
 void addZeros(Array<Complex> &);
 
-enum mode {IDFT, DFT};
+enum mode {IDFT, DFT, FFT, IFFT, ITFFT, ITIFFT};
 
 class Signal {
 	Array<Complex> inputSignal;
@@ -54,5 +55,7 @@ public:
 	friend ostream & operator<<(ostream &, Signal &);
 	friend istream & operator>>(istream &, Signal &);
 };
+
+extern void (Signal::*foutier[METHODS])();
 
 #endif

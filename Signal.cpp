@@ -2,6 +2,8 @@
 
 using namespace std;
 
+void (Signal::*fourier[METHODS])() = {&Signal::idft, &Signal::dft, &Signal::fft, &Signal::ifft, NULL, NULL};
+
 //Builders--------------------------------------
 
 Signal::Signal(){
@@ -60,6 +62,11 @@ void Signal::fft(){
 
 }
 
+void Signal::ifft(){
+
+	
+}
+
 Array<Complex> Signal::fastFourierTransform(Array<Complex> x){
 
 	size_t N = x.getSize();
@@ -108,7 +115,7 @@ void Signal::dft(){
 	}
 }
 
-void Signal::idft() {
+void Signal::idft(){
 	Complex result;
 
 	for(size_t n = 0; n < inputSignal.getSize(); n++){
@@ -153,17 +160,7 @@ void Signal::fourierProcess(istream &is, ostream &os){
 		if(inputSignal.isEmpty())
 			continue;
 
-		if(transform == DFT)
-			//dft();
-			fft();
-
-		else if(transform == IDFT)
-			idft();
-
-		else{
-			os << "No operation selected" << endl;
-			break;
-		}
+		((*this).*fourier[transform])();
 
 		os << (*this);
 
