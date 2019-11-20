@@ -81,9 +81,6 @@ size_t inverseBit(size_t index, size_t bits){
 
 void Signal::fft(){
 
-	for(size_t i = 0; i < 8; i++)
-		cout << inverseBit(i, 3) << endl;
-
 	addZeros(inputSignal);
 	outputSignal = fastFourierTransform(inputSignal);
 
