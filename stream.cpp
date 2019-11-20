@@ -8,7 +8,7 @@ istream & setInStream(Status &program, fstream &input){
 		isPtr = &cin;
 
 	else{
-		input.open(program.getInFile(), ios::in);
+		input.open(program.getInFile().c_str(), ios::in);
 		isPtr = &input;
 	}
 
@@ -23,7 +23,7 @@ ostream & setOutStream(Status &program, fstream &output){
 		osPtr = &cout;
 
 	else{
-		output.open(program.getOutFile(), ios::out);
+		output.open(program.getOutFile().c_str(), ios::out);
 		osPtr = &output;
 	}
 
