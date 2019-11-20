@@ -55,28 +55,34 @@ istream & operator>> (istream &is, Signal &sig){
 }
 
 //Modifiers--------------------------------------
-/*
-size_t inverseBit(size_t index){
 
-	size_t Nbits = sizeof(size_t) * 8;
+size_t inverseBit(size_t index, size_t bits){
+
 	size_t inverted = 0, aux = 0;
 
-	for(size_t i = 0; i < Nbits; i++){
+	for(size_t i = 0; i < bits; i++){
 
 		aux = (index & (1 << i));
 
 		if(aux)
-			inverted |= (1 << ((Nbits - 1) - i));
+			inverted |= (1 << ((bits - 1) - i));
 
 	}
 
+	return inverted;
+
 }
 
-void Signal::iterfft(){
+//size_t getBits
+
+/*void Signal::iterfft(){
 
 }*/
 
 void Signal::fft(){
+
+	for(size_t i = 0; i < 8; i++)
+		cout << inverseBit(i, 3) << endl;
 
 	addZeros(inputSignal);
 	outputSignal = fastFourierTransform(inputSignal);
@@ -196,9 +202,39 @@ Complex Wn(size_t n, size_t k, size_t N, bool positive){
 
 void addZeros(Array<Complex> & in){
 
-	Complex zero;
+	size_t newSize = nextPowOf2(in.getSize());
 
-	if(in.getSize() % 2)
-		in += zero;
+	if(newSize != in.getSize()){
+
+		Array<Complex> zeros(newSize - in.getSize());
+
+		in += zeros;
+
+	}
+
+}
+
+size_t nextPowOf2(size_t num, size_t *bits){
+
+	size_t aux = num, i;
+
+	for(i = 0; aux; i++)
+		aux = aux >> 1;
+
+	aux = pow(2, i - 1);
+
+	if(num != aux){
+
+		if(bits)
+			*bits = i;
+
+		return aux << 1;
+
+	}
+
+	if(bits)
+		*bits = i - 1;
+
+	return aux;
 
 }

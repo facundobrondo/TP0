@@ -17,6 +17,8 @@ using namespace std;
 
 Complex Wn(size_t, size_t, size_t, bool = true);
 void addZeros(Array<Complex> &);
+size_t nextPowOf2(size_t , size_t * = NULL);
+size_t inverseBit(size_t , size_t );
 
 enum mode {IDFT, DFT, FFT, IFFT, ITFFT, ITIFFT};
 
