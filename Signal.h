@@ -51,6 +51,7 @@ public:
 	void fft();
 	void ifft();
 	void iterfft();
+	void iterifft();
 	void setMethod(mode);
 	void emptyInput();
 	void reset();

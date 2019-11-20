@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void (Signal::*fourier[METHODS])() = {&Signal::idft, &Signal::dft, &Signal::fft, &Signal::ifft, &Signal::iterfft, NULL};
+void (Signal::*fourier[METHODS])() = {&Signal::idft, &Signal::dft, &Signal::fft, &Signal::ifft, &Signal::iterfft, &Signal::iterifft};
 
 //Builders--------------------------------------
 
@@ -71,52 +71,11 @@ void Signal::iterfft(){
 	outputSignal = iterFourierTransform(inputSignal, bits);
 }
 
-Array<Complex> Signal::iterFourierTransform(Array<Complex> x, size_t bits, bool inverse){
+void Signal::iterifft(){
+	size_t bits = 0;
 
-	Array<Complex> invertedX = bitReverseCopy(x, bits);
-
-	cout << invertedX << endl;
-
-	size_t n = invertedX.getSize();
-
-	for(size_t s = 1; s <= log2(n); s++){
-
-		size_t m = pow(2, s);
-		Complex wm = Wn(1, 1, m);
-
-		for(size_t k = 0; k < n; k += m){
-
-			Complex w = 1;
-
-			for(size_t j = 0; j < m / 2; j++){
-
-				Complex t = invertedX[k + j];
-				Complex u = w * invertedX[k + j + m / 2];
-
-				invertedX[k + j] = t + u;
-				invertedX[k + j + m / 2] = t - u;
-				w *= wm;
-			}
-		}
-
-	}
-
-	return invertedX;
-
-}
-
-Array<Complex> bitReverseCopy(Array<Complex> &inputSignal, size_t bits){
-
-	Array<Complex> reverse(inputSignal.getSize());
-
-	for(size_t i = 0; i < inputSignal.getSize(); i++){
-
-		reverse[inverseBit(i, bits)] = inputSignal[i];
-
-	}
-
-	return reverse;
-
+	addZeros(inputSignal, &bits);
+	outputSignal = iterFourierTransform(inputSignal, bits, true);
 }
 
 void Signal::fft(){
@@ -156,6 +115,40 @@ Array<Complex> Signal::fastFourierTransform(Array<Complex> x, bool inverse){
 
 	else 
 		return x;
+
+}
+
+Array<Complex> Signal::iterFourierTransform(Array<Complex> x, size_t bits, bool inverse){
+
+	Array<Complex> invertedX = bitReverseCopy(x, bits);
+
+	cout << invertedX << endl;
+
+	size_t n = invertedX.getSize();
+
+	for(size_t s = 1; s <= log2(n); s++){
+
+		size_t m = pow(2, s);
+		Complex wm = Wn(1, 1, m, !inverse);
+
+		for(size_t k = 0; k < n; k += m){
+
+			Complex w = 1;
+
+			for(size_t j = 0; j < m / 2; j++){
+
+				Complex t = invertedX[k + j];
+				Complex u = w * invertedX[k + j + m / 2];
+
+				invertedX[k + j] = t + u;
+				invertedX[k + j + m / 2] = t - u;
+				w *= wm;
+			}
+		}
+
+	}
+
+	return inverse ? invertedX * (1.0 / n) : invertedX;
 
 }
 
@@ -278,5 +271,19 @@ size_t inverseBit(size_t index, size_t bits){
 	}
 
 	return inverted;
+
+}
+
+Array<Complex> bitReverseCopy(Array<Complex> &inputSignal, size_t bits){
+
+	Array<Complex> reverse(inputSignal.getSize());
+
+	for(size_t i = 0; i < inputSignal.getSize(); i++){
+
+		reverse[inverseBit(i, bits)] = inputSignal[i];
+
+	}
+
+	return reverse;
 
 }

@@ -23,9 +23,13 @@ bool argumentProcessing(size_t argc, char *argv[], Status &program){
 
 		size_t index = isFlag(arguments[i]) + 1;
 
-		if (index && i + 1 < argc)
+		if (index && i + 1 < argc){
 			if (!f[index / 2](program, arguments[i + 1]))
 				return false;
+		}
+
+		else
+			return false;
 
 	}	
 	
