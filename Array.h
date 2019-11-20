@@ -42,6 +42,9 @@ public:
     template<class U>
     friend Array<U> operator*(const Array<U> &, const double);
 
+    template<class U>
+    friend Array<U> operator*(const Array<U> &, const U);
+
     //IO
     template <class U>
     friend ostream & operator<< (ostream &, Array<U> &);
@@ -53,6 +56,21 @@ public:
 
 template <class T>
 Array<T> operator*(const Array<T> &data, const double k){
+
+	Array<T> aux = data;
+
+	for(size_t i = 0; i < aux.getSize(); i++){
+
+		aux[i] *= k;
+
+	}
+
+	return aux;
+
+}
+
+template <class T>
+Array<T> operator*(const Array<T> &data, const T k){
 
 	Array<T> aux = data;
 

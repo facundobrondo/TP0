@@ -46,9 +46,21 @@ bool processMethod(Status &program, string &option){
 		program.setFFT(true);
 	}
 
-	else if (option == IFFT){
+	else if(option == IFFT){
 		program.setDFT(false);
 		program.setFFT(true);
+	}
+
+	else if(option == FFTITER){
+		program.setDFT(true);
+		program.setFFT(true);
+		program.setITER(true);
+	}
+
+	else if(option == IFFTITER){
+		program.setDFT(false);
+		program.setFFT(true);
+		program.setITER(true);
 	}
 
 	else

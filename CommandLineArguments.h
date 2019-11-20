@@ -23,6 +23,8 @@
 #define IDFT "idft"
 #define FFT "fft"
 #define IFFT "ifft"
+#define FFTITER "fft-iter"
+#define IFFTITER "ifft-iter"
 
 #define MAX_LEN 9
 #define OPTIONS 3

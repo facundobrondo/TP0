@@ -30,6 +30,7 @@ public:
 	void newOutFile(string &);
 	void setDFT(bool);
 	void setFFT(bool);
+	void setITER(bool);
 	void setHelp();
 	bool needHelp();
 	void configureSignal(Signal &);

@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void (Signal::*fourier[METHODS])() = {&Signal::idft, &Signal::dft, &Signal::fft, &Signal::ifft, NULL, NULL};
+void (Signal::*fourier[METHODS])() = {&Signal::idft, &Signal::dft, &Signal::fft, &Signal::ifft, &Signal::iterfft, NULL};
 
 //Builders--------------------------------------
 
@@ -65,25 +65,45 @@ void Signal::idft(){
 }
 
 void Signal::iterfft(){
-
 	size_t bits = 0;
 
 	addZeros(inputSignal, &bits);
-	//outputSignal = iterFourierTransform(inputSignal);
+	outputSignal = iterFourierTransform(inputSignal, bits);
 }
 
-/*Array<Complex> Signal::iterFourierTransform(Array<Complex> x, size_t bits, bool inverse){
+Array<Complex> Signal::iterFourierTransform(Array<Complex> x, size_t bits, bool inverse){
 
-	invertedX = bitReverseCopy(x, bits);
+	Array<Complex> invertedX = bitReverseCopy(x, bits);
 
-	n = invertedX.getSize();
+	cout << invertedX << endl;
+
+	size_t n = invertedX.getSize();
 
 	for(size_t s = 1; s <= log2(n); s++){
-		wm = 
+
+		size_t m = pow(2, s);
+		Complex wm = Wn(1, 1, m);
+
+		for(size_t k = 0; k < n; k += m){
+
+			Complex w = 1;
+
+			for(size_t j = 0; j < m / 2; j++){
+
+				Complex t = invertedX[k + j];
+				Complex u = w * invertedX[k + j + m / 2];
+
+				invertedX[k + j] = t + u;
+				invertedX[k + j + m / 2] = t - u;
+				w *= wm;
+			}
+		}
 
 	}
 
-}*/
+	return invertedX;
+
+}
 
 Array<Complex> bitReverseCopy(Array<Complex> &inputSignal, size_t bits){
 
@@ -125,10 +145,10 @@ Array<Complex> Signal::fastFourierTransform(Array<Complex> x, bool inverse){
 		Array<Complex> Q = fastFourierTransform(q, inverse);
 
 		for(size_t k = 0; k < N / 2; k++)
-			X[k] = P[k] + Q[k] * Wn(1, k, N, inverse);
+			X[k] = P[k] + Q[k] * Wn(1, k, N, !inverse);
 
 		for(size_t k = N / 2; k < N; k++)
-			X[k] = P[k - N / 2] + Q[k - N / 2] * Wn(1, k, N, inverse);
+			X[k] = P[k - N / 2] + Q[k - N / 2] * Wn(1, k, N, !inverse);
 
 		return X;
 

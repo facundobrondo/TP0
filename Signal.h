@@ -30,6 +30,7 @@ class Signal {
 	mode transform;
 
 	Array<Complex> fastFourierTransform(Array<Complex>, bool = false);
+	Array<Complex> iterFourierTransform(Array<Complex>, size_t , bool = false);
 
 public:
 

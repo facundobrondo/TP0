@@ -99,6 +99,10 @@ void Status::setFFT(bool state){
 	fast = state;	
 }
 
+void Status::setITER(bool state){
+	iterative = state;
+}
+
 void Status::setHelp(){
 	help = true;
 }
