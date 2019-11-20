@@ -50,6 +50,7 @@ public:
 	void emptyInput();
 	void reset();
 	void fourierProcess(istream &is, ostream &os);
+	void discreteFourierTransform(bool = false);
 	
 	//Operators
 	friend ostream & operator<<(ostream &, Signal &);

@@ -55,28 +55,48 @@ istream & operator>> (istream &is, Signal &sig){
 }
 
 //Modifiers--------------------------------------
+/*
+size_t inverseBit(size_t index){
+
+	size_t Nbits = sizeof(size_t) * 8;
+	size_t inverted = 0, aux = 0;
+
+	for(size_t i = 0; i < Nbits; i++){
+
+		aux = (index & (1 << i));
+
+		if(aux)
+			inverted |= (1 << ((Nbits - 1) - i));
+
+	}
+
+}
+
+void Signal::iterfft(){
+
+}*/
 
 void Signal::fft(){
 
+	addZeros(inputSignal);
 	outputSignal = fastFourierTransform(inputSignal);
 
 }
 
 void Signal::ifft(){
 
+	addZeros(inputSignal);
 	outputSignal = fastFourierTransform(inputSignal, true);
 
 }
 
 Array<Complex> Signal::fastFourierTransform(Array<Complex> x, bool inverse){
-
+	
 	size_t N = x.getSize();
 
 	if(N > 1){
 
 		Array<Complex> X(N);
-
-		addZeros(x);
 
 		Array<Complex> p = x.evenIndex();
 		Array<Complex> q = x.oddIndex();
@@ -101,31 +121,29 @@ Array<Complex> Signal::fastFourierTransform(Array<Complex> x, bool inverse){
 }
 
 void Signal::dft(){
-
-	Complex result;
-
-	for(size_t k = 0; k < inputSignal.getSize(); k++){
-		result = 0;
-
-		for (size_t n = 0; n < inputSignal.getSize(); n++)
-			result += inputSignal[n] * Wn(n, k, inputSignal.getSize());
-
-		outputSignal += result;
-	}
+	discreteFourierTransform();
 }
 
 void Signal::idft(){
+	discreteFourierTransform(true);
+}
+
+void Signal::discreteFourierTransform(bool inverse){
+
 	Complex result;
 
 	for(size_t n = 0; n < inputSignal.getSize(); n++){
 		result = 0;
 
 		for (size_t k = 0; k < inputSignal.getSize(); k++)
-			result += inputSignal[k] * Wn(n, k, inputSignal.getSize(), false);
+			result += inputSignal[k] * Wn(n, k, inputSignal.getSize(), !inverse);
 
-		result /= inputSignal.getSize();
+		if(inverse)
+			result /= inputSignal.getSize();
+
 		outputSignal += result;
 	}
+
 }
 
 void Signal::setMethod(mode m){

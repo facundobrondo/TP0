@@ -38,10 +38,10 @@ bool processMethod(Status &program, string &option){
 	if(option == IDFT)
 		program.setDFT(false);
 
-	else if(option == DFT || option == STANDARD)
+	else if(option == DFT)
 		program.setDFT(true);
 
-	else if(option == FFT){
+	else if(option == FFT || option == STANDARD){
 		program.setDFT(true);
 		program.setFFT(true);
 	}
