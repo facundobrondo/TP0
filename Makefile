@@ -1,4 +1,4 @@
-#tp1 Makefile
+#TP1 Makefile
 CC = g++
 CFLAGS = -g -Wall -pedantic
 OBJS = Complex.o CommandLineArguments.o Status.o Signal.o stream.o
@@ -9,7 +9,7 @@ all: tp1 diff_tp1 test-dft test-idft test-fft test-ifft test-iterfft test-iterif
 #install
 install: tp1
 
-#Create tp1 program
+#Create tp0 program
 tp1: main.o $(OBJS)
 	$(CC) $(CFLAGS) -o tp1 main.o $(OBJS)
 
@@ -31,7 +31,7 @@ stream.o: stream.cpp stream.h
 Status.o: Status.cpp Status.h
 	$(CC) $(CFLAGS) -c Status.cpp
 
-#Create diff_tp1 program
+#Create diff_tp0 program
 diff_tp1: diff_tp1.cpp $(OBJS)
 	$(CC) $(CFLAGS) -o diff_tp1 diff_tp1.cpp cmdline.cpp $(OBJS)
 
