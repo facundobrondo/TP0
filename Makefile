@@ -1,4 +1,4 @@
-#TP0 Makefile
+#tp1 Makefile
 CC = g++
 CFLAGS = -g -Wall -pedantic
 OBJS = Complex.o CommandLineArguments.o Status.o Signal.o stream.o
@@ -9,7 +9,7 @@ all: tp1 diff_tp1 test-dft test-idft test-fft test-ifft test-iterfft test-iterif
 #install
 install: tp1
 
-#Create tp0 program
+#Create tp1 program
 tp1: main.o $(OBJS)
 	$(CC) $(CFLAGS) -o tp1 main.o $(OBJS)
 
@@ -31,13 +31,13 @@ stream.o: stream.cpp stream.h
 Status.o: Status.cpp Status.h
 	$(CC) $(CFLAGS) -c Status.cpp
 
-#Create diff_tp0 program
+#Create diff_tp1 program
 diff_tp1: diff_tp1.cpp $(OBJS)
 	$(CC) $(CFLAGS) -o diff_tp1 diff_tp1.cpp cmdline.cpp $(OBJS)
 
 #Run tests cases
 #dft
-test-dft: tp0 diff_tp0
+test-dft: tp1 diff_tp1
 	@echo Testing dft cases.
 	@set -e; for t in `seq 1 9`; do                                  \
 		echo Testing: $$t.;       			               			           \
@@ -107,82 +107,82 @@ test-iterifft: tp1 diff_tp1
 
 #Run tests cases with Valgrind
 #dft
-test-dft-valgrind: tp0 diff_tp0
+test-dft-valgrind: tp1 diff_tp1
 	@echo Testing dft cases with Valgrind.
 	@set -e; for t in `seq 1 9`; do                                      \
 		echo Testing: $$t.;       			                     		           \
 		valgrind $(VALGRINDFLAGS) 2>/dev/null                              \
-		./tp0 < tests-dft/test$$t.in > tests-dft/test$$t.out;         	   \
-		./diff_tp0 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out ;     \
+		./tp1 < tests-dft/test$$t.in > tests-dft/test$$t.out;         	   \
+		./diff_tp1 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out ;     \
 		valgrind $(VALGRINDFLAGS) 2>/dev/null                              \
-	  	./tp0 -m dft -i tests-dft/test$$t.in -o tests-dft/test$$t.out; 	 \
-	  	./diff_tp0 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out ;   \
+	  	./tp1 -m dft -i tests-dft/test$$t.in -o tests-dft/test$$t.out; 	 \
+	  	./diff_tp1 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out ;   \
 	done
 	@echo Test OK.
 #idft
-test-idft-valgrind: tp0 diff_tp0
+test-idft-valgrind: tp1 diff_tp1
 	@echo Testing idft cases with Valgrind.
 	@set -e; for t in `seq 10 17`; do                                       \
 		echo Testing: $$t.;       			                         	            \
 		valgrind $(VALGRINDFLAGS) 2>/dev/null                                 \
-		./tp0 -m idft < tests-idft/test$$t.in > tests-idft/test$$t.out;       \
-		./diff_tp0 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;      \
+		./tp1 -m idft < tests-idft/test$$t.in > tests-idft/test$$t.out;       \
+		./diff_tp1 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;      \
 		valgrind $(VALGRINDFLAGS) 2>/dev/null                                 \
-	  	./tp0 -m idft -i tests-idft/test$$t.in -o tests-idft/test$$t.out;   \
-	  	./diff_tp0 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;    \
+	  	./tp1 -m idft -i tests-idft/test$$t.in -o tests-idft/test$$t.out;   \
+	  	./diff_tp1 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;    \
 	done
 	@echo Test OK.
 #fft
-test-fft-valgrind: tp0 diff_tp0
+test-fft-valgrind: tp1 diff_tp1
 	@echo Testing fft cases with Valgrind.
 	@set -e; for t in `seq 1 9`; do                                      \
 		echo Testing: $$t.;       			                     		           \
 		valgrind $(VALGRINDFLAGS) 2>/dev/null                              \
-		./tp0 -m fft < tests-dft/test$$t.in > tests-dft/test$$t.out;         	   \
-		./diff_tp0 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out ;     \
+		./tp1 -m fft < tests-dft/test$$t.in > tests-dft/test$$t.out;         	   \
+		./diff_tp1 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out ;     \
 		valgrind $(VALGRINDFLAGS) 2>/dev/null                              \
-	  	./tp0 -m fft -i tests-dft/test$$t.in -o tests-dft/test$$t.out; 	 \
-	  	./diff_tp0 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out ;   \
+	  	./tp1 -m fft -i tests-dft/test$$t.in -o tests-dft/test$$t.out; 	 \
+	  	./diff_tp1 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out ;   \
 	done
 	@echo Test OK.
 #ifft
-test-ifft-valgrind: tp0 diff_tp0
+test-ifft-valgrind: tp1 diff_tp1
 	@echo Testing ifft cases with Valgrind.
 	@set -e; for t in `seq 10 17`; do                                       \
 		echo Testing: $$t.;       			                         	            \
 		valgrind $(VALGRINDFLAGS) 2>/dev/null                                 \
-		./tp0 -m ifft < tests-idft/test$$t.in > tests-idft/test$$t.out;       \
-		./diff_tp0 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;      \
+		./tp1 -m ifft < tests-idft/test$$t.in > tests-idft/test$$t.out;       \
+		./diff_tp1 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;      \
 		valgrind $(VALGRINDFLAGS) 2>/dev/null                                 \
-	  	./tp0 -m ifft -i tests-idft/test$$t.in -o tests-idft/test$$t.out;   \
-	  	./diff_tp0 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;    \
+	  	./tp1 -m ifft -i tests-idft/test$$t.in -o tests-idft/test$$t.out;   \
+	  	./diff_tp1 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;    \
 	done
 	@echo Test OK.
 
 #iterfft
-test-iterfft-valgrind: tp0 diff_tp0
+test-iterfft-valgrind: tp1 diff_tp1
 	@echo Testing iterfft cases with Valgrind.
 	@set -e; for t in `seq 1 9`; do                                      \
 		echo Testing: $$t.;       			                     		           \
 		valgrind $(VALGRINDFLAGS) 2>/dev/null                              \
-		./tp0 -m fft-iter < tests-dft/test$$t.in > tests-dft/test$$t.out;         	   \
-		./diff_tp0 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out ;     \
+		./tp1 -m fft-iter < tests-dft/test$$t.in > tests-dft/test$$t.out;         	   \
+		./diff_tp1 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out ;     \
 		valgrind $(VALGRINDFLAGS) 2>/dev/null                              \
-	  	./tp0 -m fft-iter -i tests-dft/test$$t.in -o tests-dft/test$$t.out; 	 \
-	  	./diff_tp0 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out ;   \
+	  	./tp1 -m fft-iter -i tests-dft/test$$t.in -o tests-dft/test$$t.out; 	 \
+	  	./diff_tp1 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out ;   \
 	done
 	@echo Test OK.
 #iterifft
-test-iterifft-valgrind: tp0 diff_tp0
+test-iterifft-valgrind: tp1 diff_tp1
 	@echo Testing iterifft cases with Valgrind.
 	@set -e; for t in `seq 10 17`; do                                       \
 		echo Testing: $$t.;       			                         	            \
 		valgrind $(VALGRINDFLAGS) 2>/dev/null                                 \
-		./tp0 -m ifft-iter < tests-idft/test$$t.in > tests-idft/test$$t.out;       \
-		./diff_tp0 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;      \
+		./tp1 -m ifft-iter < tests-idft/test$$t.in > tests-idft/test$$t.out;       \
+		./diff_tp1 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;      \
 		valgrind $(VALGRINDFLAGS) 2>/dev/null                                 \
-	  	./tp0 -m ifft-iter -i tests-idft/test$$t.in -o tests-idft/test$$t.out;   \
-	  	./diff_tp0 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;    \
+	  	./tp1 -m ifft-iter -i tests-idft/test$$t.in -o tests-idft/test$$t.out;   \
+	  	./diff_tp1 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;    \
 	done
 	@echo Test OK.
 
