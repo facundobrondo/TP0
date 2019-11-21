@@ -5,7 +5,7 @@ OBJS = Complex.o CommandLineArguments.o Status.o Signal.o stream.o
 VALGRINDFLAGS = --tool=memcheck
 
 #Run all
-all: tp1 diff_tp1 test-dft test-idft test-fft test-ifft test-iterfft test-iterifft test-dft-valgrind test-idft-valgrind test-fft-valgrind test-ifft-valgrind test-iterfft-valgrind test-iterifft-valgrind
+all: tp1 diff_tp1 test-dft test-idft test-fft test-ifft test-iterfft test-iterifft test-fft-iplace test-ifft-iplace test-dft-valgrind test-idft-valgrind test-fft-valgrind test-ifft-valgrind test-iterfft-valgrind test-iterifft-valgrind test-fft-iplace-valgrind test-ifft-iplace-valgrind
 #install
 install: tp1
 
@@ -92,6 +92,7 @@ test-iterfft: tp1 diff_tp1
 		./diff_tp1 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out;   \
 	done
 	@echo Test OK.
+
 #iterifft
 test-iterifft: tp1 diff_tp1
 	@echo Testing iterifft cases.
@@ -100,6 +101,30 @@ test-iterifft: tp1 diff_tp1
   	./tp1 -m ifft-iter < tests-idft/test$$t.in > tests-idft/test$$t.out;   \
 		./diff_tp1 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out;   \
 		./tp1 -m ifft-iter -i tests-idft/test$$t.in -o tests-idft/test$$t.out; \
+		./diff_tp1 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out;   \
+	done
+	@echo Test OK.
+
+#fft-iplace
+test-fft-iplace: tp1 diff_tp1
+	@echo Testing fft-iplace cases.
+	@set -e; for t in `seq 1 9`; do                                   \
+		echo Testing: $$t.;       			                 			  					\
+  	./tp1 -m fft-iplace < tests-dft/test$$t.in > tests-dft/test$$t.out;   \
+		./diff_tp1 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out;   \
+		./tp1 -m fft-iplace -i tests-dft/test$$t.in -o tests-idft/test$$t.out; \
+		./diff_tp1 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out;   \
+	done
+	@echo Test OK.
+
+#ifft-iplace
+test-ifft-iplace: tp1 diff_tp1
+	@echo Testing ifft-iplace cases.
+	@set -e; for t in `seq 10 17`; do                                   \
+		echo Testing: $$t.;       			                 			  					\
+	  ./tp1 -m ifft-iplace < tests-idft/test$$t.in > tests-idft/test$$t.out;   \
+		./diff_tp1 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out;   \
+		./tp1 -m ifft-iplace -i tests-idft/test$$t.in -o tests-dft/test$$t.out; \
 		./diff_tp1 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out;   \
 	done
 	@echo Test OK.
@@ -172,6 +197,7 @@ test-iterfft-valgrind: tp1 diff_tp1
 	  	./diff_tp1 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out ;   \
 	done
 	@echo Test OK.
+
 #iterifft
 test-iterifft-valgrind: tp1 diff_tp1
 	@echo Testing iterifft cases with Valgrind.
@@ -182,6 +208,34 @@ test-iterifft-valgrind: tp1 diff_tp1
 		./diff_tp1 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;      \
 		valgrind $(VALGRINDFLAGS) 2>/dev/null                                 \
 	  	./tp1 -m ifft-iter -i tests-idft/test$$t.in -o tests-idft/test$$t.out;   \
+	  	./diff_tp1 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;    \
+	done
+	@echo Test OK.
+
+#fft-iplace
+test-fft-iplace-valgrind: tp1 diff_tp1
+	@echo Testing fft-iplace cases with Valgrind.
+	@set -e; for t in `seq 1 9`; do                                      \
+		echo Testing: $$t.;       			                     		           \
+		valgrind $(VALGRINDFLAGS) 2>/dev/null                              \
+		./tp1 -m fft-iplace < tests-dft/test$$t.in > tests-dft/test$$t.out;         	   \
+		./diff_tp1 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out ;     \
+		valgrind $(VALGRINDFLAGS) 2>/dev/null                              \
+	  	./tp1 -m fft-iplace -i tests-dft/test$$t.in -o tests-dft/test$$t.out; 	 \
+	  	./diff_tp1 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out ;   \
+	done
+	@echo Test OK.
+
+#ifft-iplace
+test-ifft-iplace-valgrind: tp1 diff_tp1
+	@echo Testing ifft-iplace cases with Valgrind.
+	@set -e; for t in `seq 10 17`; do                                       \
+		echo Testing: $$t.;       			                         	            \
+		valgrind $(VALGRINDFLAGS) 2>/dev/null                                 \
+		./tp1 -m ifft-iplace < tests-idft/test$$t.in > tests-idft/test$$t.out;       \
+		./diff_tp1 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;      \
+		valgrind $(VALGRINDFLAGS) 2>/dev/null                                 \
+	  	./tp1 -m ifft-iplace -i tests-idft/test$$t.in -o tests-idft/test$$t.out;   \
 	  	./diff_tp1 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;    \
 	done
 	@echo Test OK.
