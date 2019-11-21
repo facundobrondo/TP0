@@ -5,8 +5,9 @@ OBJS = Complex.o CommandLineArguments.o Status.o Signal.o stream.o
 VALGRINDFLAGS = --tool=memcheck
 
 #Run all
-all: tp0 diff_tp0 test-dft test-idft test-fft test-ifft test-dft-valgrind test-idft-valgrind test-fft-valgrind test-ifft-valgrind
-
+all: tp0 diff_tp0 test-dft test-idft test-fft test-ifft test-iterfft
+	test-iterifft	test-dft-valgrind test-idft-valgrind test-fft-valgrind
+	test-ifft-valgrind test-iterfft-valgrind test-iterifft-valgrind
 #install
 install: tp0
 
@@ -82,6 +83,30 @@ test-ifft: tp0 diff_tp0
 	done
 	@echo Test OK.
 
+#iterfft
+test-iterfft: tp0 diff_tp0
+	@echo Testing iterfft cases.
+	@set -e; for t in `seq 1 9`; do                                   \
+		echo Testing: $$t.;       			                 			  					\
+	  ./tp0 -m fft-iter < tests-dft/test$$t.in > tests-dft/test$$t.out;   \
+		./diff_tp0 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out;   \
+		./tp0 -m fft-iter -i tests-dft/test$$t.in -o tests-dft/test$$t.out; \
+		./diff_tp0 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out;   \
+	done
+	@echo Test OK.
+#iterifft
+test-iterifft: tp0 diff_tp0
+	@echo Testing iterifft cases.
+	@set -e; for t in `seq 10 17`; do                                   \
+		echo Testing: $$t.;       			                 			  					\
+  	./tp0 -m ifft-iter < tests-idft/test$$t.in > tests-idft/test$$t.out;   \
+		./diff_tp0 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out;   \
+		./tp0 -m ifft-iter -i tests-idft/test$$t.in -o tests-idft/test$$t.out; \
+		./diff_tp0 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out;   \
+	done
+	@echo Test OK.
+
+
 #Run tests cases with Valgrind
 #dft
 test-dft-valgrind: tp0 diff_tp0
@@ -132,6 +157,33 @@ test-ifft-valgrind: tp0 diff_tp0
 		./diff_tp0 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;      \
 		valgrind $(VALGRINDFLAGS) 2>/dev/null                                 \
 	  	./tp0 -m ifft -i tests-idft/test$$t.in -o tests-idft/test$$t.out;   \
+	  	./diff_tp0 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;    \
+	done
+	@echo Test OK.
+
+#iterfft
+test-iterfft-valgrind: tp0 diff_tp0
+	@echo Testing iterfft cases with Valgrind.
+	@set -e; for t in `seq 1 9`; do                                      \
+		echo Testing: $$t.;       			                     		           \
+		valgrind $(VALGRINDFLAGS) 2>/dev/null                              \
+		./tp0 -m fft-iter < tests-dft/test$$t.in > tests-dft/test$$t.out;         	   \
+		./diff_tp0 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out ;     \
+		valgrind $(VALGRINDFLAGS) 2>/dev/null                              \
+	  	./tp0 -m fft-iter -i tests-dft/test$$t.in -o tests-dft/test$$t.out; 	 \
+	  	./diff_tp0 -r tests-dft/test$$t.ref -o tests-dft/test$$t.out ;   \
+	done
+	@echo Test OK.
+#iterifft
+test-iterifft-valgrind: tp0 diff_tp0
+	@echo Testing iterifft cases with Valgrind.
+	@set -e; for t in `seq 10 17`; do                                       \
+		echo Testing: $$t.;       			                         	            \
+		valgrind $(VALGRINDFLAGS) 2>/dev/null                                 \
+		./tp0 -m ifft-iter < tests-idft/test$$t.in > tests-idft/test$$t.out;       \
+		./diff_tp0 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;      \
+		valgrind $(VALGRINDFLAGS) 2>/dev/null                                 \
+	  	./tp0 -m ifft-iter -i tests-idft/test$$t.in -o tests-idft/test$$t.out;   \
 	  	./diff_tp0 -r tests-idft/test$$t.ref -o tests-idft/test$$t.out ;    \
 	done
 	@echo Test OK.
