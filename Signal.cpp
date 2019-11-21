@@ -122,8 +122,6 @@ Array<Complex> Signal::iterFourierTransform(Array<Complex> x, size_t bits, bool 
 
 	Array<Complex> invertedX = bitReverseCopy(x, bits);
 
-	cout << invertedX << endl;
-
 	size_t n = invertedX.getSize();
 
 	for(size_t s = 1; s <= log2(n); s++){
