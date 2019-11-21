@@ -84,6 +84,31 @@ void Signal::iplaceifft(){
 	outputSignal = outputSignal * (1.0 / outputSignal.getSize());
 }
 
+void Signal::iterfft(){
+	size_t bits = 0;
+
+	addZeros(inputSignal, &bits);
+	outputSignal = iterFourierTransform(inputSignal, bits);
+}
+
+void Signal::iterifft(){
+	size_t bits = 0;
+
+	addZeros(inputSignal, &bits);
+	outputSignal = iterFourierTransform(inputSignal, bits, true);
+}
+
+void Signal::fft(){
+	addZeros(inputSignal);
+	outputSignal = fastFourierTransform(inputSignal);
+}
+
+void Signal::ifft(){
+	addZeros(inputSignal);
+	outputSignal = fastFourierTransform(inputSignal, true);
+	outputSignal = outputSignal * (1.0 / inputSignal.getSize());
+}
+
 void Signal::inPlaceFourierTransform(Array<Complex> &x, size_t start, size_t end, size_t size, bool inverse){
 
 	size_t dif = end - start;
@@ -108,32 +133,6 @@ void Signal::inPlaceFourierTransform(Array<Complex> &x, size_t start, size_t end
 
 	}
 
-}
-
-
-void Signal::iterfft(){
-	size_t bits = 0;
-
-	addZeros(inputSignal, &bits);
-	outputSignal = iterFourierTransform(inputSignal, bits);
-}
-
-void Signal::iterifft(){
-	size_t bits = 0;
-
-	addZeros(inputSignal, &bits);
-	outputSignal = iterFourierTransform(inputSignal, bits, true);
-}
-
-void Signal::fft(){
-	addZeros(inputSignal);
-	outputSignal = fastFourierTransform(inputSignal);
-}
-
-void Signal::ifft(){
-	addZeros(inputSignal);
-	outputSignal = fastFourierTransform(inputSignal, true);
-	outputSignal = outputSignal * (1.0 / inputSignal.getSize());
 }
 
 Array<Complex> Signal::fastFourierTransform(Array<Complex> x, bool inverse){
