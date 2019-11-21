@@ -6,9 +6,10 @@ Status::Status(){
 	inFile = "";
 	outFile = "";
 	transform = true;
-	fast = false;
+	fast = true;
 	help = false;
 	iterative = false;
+	inplace = false;
 }
 
 Status::~Status(){}
@@ -21,6 +22,10 @@ bool Status::getMethod(){
 
 bool Status::getSpeed(){
 	return fast;
+}
+
+bool Status::getInPlace(){
+	return inplace;
 }
 
 bool Status::getIterative(){
@@ -54,6 +59,9 @@ void Status::configureSignal(Signal &sig){
 			if(iterative)
 				sig.setMethod(ITFFT);
 
+			else if (inplace)
+				sig.setMethod(IPFFT);
+
 			else
 				sig.setMethod(FFT);
 
@@ -70,6 +78,9 @@ void Status::configureSignal(Signal &sig){
 
 			if(iterative)
 				sig.setMethod(ITIFFT);
+
+			else if(inplace)
+				sig.setMethod(IPIFFT);
 
 			else
 				sig.setMethod(IFFT);
@@ -93,6 +104,10 @@ void Status::newOutFile(string &oF){
 
 void Status::setDFT(bool state){
 	transform = state;
+}
+
+void Status::setIP(bool state){
+	inplace = state;
 }
 
 void Status::setFFT(bool state){

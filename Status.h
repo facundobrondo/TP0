@@ -8,7 +8,7 @@ using namespace std;
 
 class Status {
 	string inFile, outFile;
-	bool help, transform, fast, iterative;
+	bool help, transform, fast, iterative, inplace;
 
 public:
 	//Builders
@@ -19,6 +19,7 @@ public:
 	bool getMethod();
 	bool getSpeed();
 	bool getIterative();
+	bool getInPlace();
 	bool stdIn();
 	bool stdOut();
 	string & getInFile();
@@ -31,6 +32,7 @@ public:
 	void setDFT(bool);
 	void setFFT(bool);
 	void setITER(bool);
+	void setIP(bool);
 	void setHelp();
 	bool needHelp();
 	void configureSignal(Signal &);

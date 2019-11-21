@@ -11,7 +11,7 @@
 #include "Complex.h"
 
 #define PI 3.1415926536897932
-#define METHODS 8
+#define METHODS 10
 
 using namespace std;
 
@@ -21,7 +21,7 @@ size_t nextPowOf2(size_t , size_t * = NULL);
 size_t inverseBit(size_t , size_t );
 Array<Complex> bitReverseCopy(Array<Complex> &, size_t );
 
-enum mode {IDFT, DFT, FFT, IFFT, ITFFT, ITIFFT};
+enum mode {IDFT, DFT, FFT, IFFT, ITFFT, ITIFFT, IPFFT, IPIFFT};
 
 class Signal {
 	Array<Complex> inputSignal;
@@ -31,6 +31,7 @@ class Signal {
 
 	Array<Complex> fastFourierTransform(Array<Complex>, bool = false);
 	Array<Complex> iterFourierTransform(Array<Complex>, size_t , bool = false);
+	void inPlaceFourierTransform(Array<Complex> &, size_t, size_t, size_t, bool = false);
 
 public:
 
@@ -52,6 +53,8 @@ public:
 	void ifft();
 	void iterfft();
 	void iterifft();
+	void iplacefft();
+	void iplaceifft();
 	void setMethod(mode);
 	void emptyInput();
 	void reset();

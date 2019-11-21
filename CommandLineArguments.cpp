@@ -67,6 +67,20 @@ bool processMethod(Status &program, string &option){
 		program.setITER(true);
 	}
 
+	else if(option == IPFFT){
+		program.setDFT(true);
+		program.setFFT(true);
+		program.setITER(false);
+		program.setIP(true);
+	}
+
+	else if(option == IPIFFT){
+		program.setDFT(false);
+		program.setFFT(true);
+		program.setITER(false);
+		program.setIP(true);
+	}
+
 	else
 		return false;
 

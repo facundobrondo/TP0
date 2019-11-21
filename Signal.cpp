@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void (Signal::*fourier[METHODS])() = {&Signal::idft, &Signal::dft, &Signal::fft, &Signal::ifft, &Signal::iterfft, &Signal::iterifft};
+void (Signal::*fourier[METHODS])() = {&Signal::idft, &Signal::dft, &Signal::fft, &Signal::ifft, &Signal::iterfft, &Signal::iterifft, &Signal::iplacefft, &Signal::iplaceifft};
 
 //Builders--------------------------------------
 
@@ -63,6 +63,53 @@ void Signal::dft(){
 void Signal::idft(){
 	discreteFourierTransform(true);
 }
+
+void Signal::iplacefft(){
+	size_t bits = 0;
+
+	addZeros(inputSignal, &bits);
+	outputSignal = bitReverseCopy(inputSignal, bits);
+
+	inPlaceFourierTransform(outputSignal, 0, outputSignal.getSize() - 1, outputSignal.getSize());
+}
+
+void Signal::iplaceifft(){
+	size_t bits = 0;
+
+	addZeros(inputSignal, &bits);
+	outputSignal = bitReverseCopy(inputSignal, bits);
+
+	inPlaceFourierTransform(outputSignal, 0, outputSignal.getSize() - 1, outputSignal.getSize(), true);
+
+	outputSignal = outputSignal * (1.0 / outputSignal.getSize());
+}
+
+void Signal::inPlaceFourierTransform(Array<Complex> &x, size_t start, size_t end, size_t size, bool inverse){
+
+	size_t dif = end - start;
+
+	if(dif > 0){
+
+		size_t aux = (dif / 2) + start;
+
+		inPlaceFourierTransform(x, start, aux, size, inverse);
+		inPlaceFourierTransform(x, aux + 1, end, size, inverse);
+
+		aux = (dif + 1) / 2;
+
+		for(size_t k = 0; k < aux; k++){
+
+			Complex xi = x[k + start], w = Wn(1, k * size / (dif + 1), size, !inverse);
+
+			x[k + start] = xi + w * x[k + start + aux];
+			x[k + start + aux] = xi - w * x[k + start + aux];
+
+		}
+
+	}
+
+}
+
 
 void Signal::iterfft(){
 	size_t bits = 0;
