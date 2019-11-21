@@ -5,9 +5,7 @@ OBJS = Complex.o CommandLineArguments.o Status.o Signal.o stream.o
 VALGRINDFLAGS = --tool=memcheck
 
 #Run all
-all: tp0 diff_tp0 test-dft test-idft test-fft test-ifft test-iterfft
-	test-iterifft	test-dft-valgrind test-idft-valgrind test-fft-valgrind
-	test-ifft-valgrind test-iterfft-valgrind test-iterifft-valgrind
+all: tp0 diff_tp0 test-dft test-idft test-fft test-ifft test-iterfft test-iterifft test-dft-valgrind test-idft-valgrind test-fft-valgrind test-ifft-valgrind test-iterfft-valgrind test-iterifft-valgrind
 #install
 install: tp0
 
